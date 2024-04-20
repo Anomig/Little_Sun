@@ -6,7 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Test</h1>
-    <h2>Test again</h2>
+    <?php include_once("nav.inc.php"); ?>
 </body>
 </html>
