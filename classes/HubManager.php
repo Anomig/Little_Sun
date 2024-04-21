@@ -12,8 +12,6 @@ class HubManager{
 
         $sql = "INSERT INTO hub_managers (firstname, lastname, email, password, profile_picture, hub_location) VALUES (?,?,?,?,?,?)";
 
-echo $sql;
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$firstname, $lastname, $email, $hashed_password, $profile_picture, $hub_location]);
     }
