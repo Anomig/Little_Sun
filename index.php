@@ -2,6 +2,8 @@
     include_once(__DIR__ . "/classes/db.php");                                                                   //database connection file
     include_once(__DIR__ . "/classes/HubManager.php");                                                           //including HubManager class file
 
+    $pdo = Db::getConnection();
+
     $hubManager = new HubManager($pdo);
 
     if($_SERVER["REQUEST_METHOD"] == "POST"){
