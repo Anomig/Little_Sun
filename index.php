@@ -1,24 +1,26 @@
 <?php 
-    include_once(__DIR__ . "/classes/db.php");                                                                   //database connection file
-    include_once(__DIR__ . "/classes/HubManager.php");                                                           //including HubManager class file
+include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/HubManager.php");
 
-    $hubManager = new HubManager($pdo);
+// Maak een verbinding met de database
+$pdo = Db::getConnection();
 
-    if($_SERVER["REQUEST_METHOD"] == "POST"){
-                                                                                                                //retrieving form data
-      $firstname = $_POST['firstname'];
-      $lastname = $_POST['lastname'];
-      $email = $_POST['email'];
-      $password = $_POST['password'];
-      $profile_picture =$_POST['profile_picture'];
-      $hub_location = $_POST['hub_location'];
+$hubManager = new HubManager($pdo);
 
-      $hubManager->addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location);       //add manager using the class
-    }
+if($_SERVER["REQUEST_METHOD"] == "POST"){
+    // Formuliergegevens ophalen
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $profile_picture = $_POST['profile_picture'];
+    $hub_location = $_POST['hub_location'];
+
+    // Manager toevoegen met behulp van de klasse
+    $hubManager->addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location);
+}
     
-?>
-
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -65,7 +67,7 @@
         <div class="p-4">
           <label for="password" class="text-slate-700">Password</label>
           <input
-            type="text"
+            type="password"
             name="password"
             id="password"
             class="border-solid border-slate-20 border-2 rounded"
@@ -75,7 +77,7 @@
         <div class="p-5">
           <label for="profile-picture" class="text-slate-700">Profile piccture</label>
           <input
-            type="text"
+            type="file"
             name="profile_picture"
             id="profile_picture"
             class="border-solid border-slate-20 border-2 rounded"
