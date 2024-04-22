@@ -2,8 +2,14 @@
 include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubManager.php");
 
+<<<<<<< HEAD
 // Maak een verbinding met de database
 $pdo = Db::getConnection();
+=======
+    $pdo = Db::getConnection();
+
+    $hubManager = new HubManager($pdo);
+>>>>>>> d58ff24051eb5154d156dbb9326bf4da388915ae
 
 $hubManager = new HubManager($pdo);
 
