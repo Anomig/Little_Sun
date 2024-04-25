@@ -7,6 +7,11 @@ class HubManager{
         $this->pdo = $pdo;
     }
 
+    public function getManagers() {
+        $stmt = $this->pdo->query("SELECT * FROM hub_managers");
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location){
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
