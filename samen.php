@@ -6,7 +6,7 @@ include_once(__DIR__ . "/classes/HubManager.php");
 
     $hubManager = new HubManager($pdo);
 
-$hubManager = new HubManager($pdo);
+// $hubManager = new HubManager($pdo);
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Formuliergegevens ophalen
@@ -19,9 +19,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Manager toevoegen met behulp van de klasse
     $hubManager->addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location);
+
+    header("Location: managers.php");
+    exit();
 }
 
-$managers = $hubManager->getManagers();
+// $managers = $hubManager->getManagers();
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
