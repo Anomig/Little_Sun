@@ -1,5 +1,7 @@
 <?php 
 
+/*
+
 class HubUser{
     private $pdo;
 
@@ -22,3 +24,5 @@ class HubUser{
     }
 
     }
+
+    
