@@ -1,5 +1,5 @@
 <?php
-/*include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubUser.php");
 
     $pdo = Db::getConnection();
@@ -19,7 +19,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // Manager toevoegen met behulp van de klasse
     $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
-}*/
+}
 
 ?><!DOCTYPE html>
 <html lang="en">

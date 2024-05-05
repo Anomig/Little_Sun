@@ -1,5 +1,5 @@
 <?php 
-/*
+
 class HubUser{
     private $pdo;
 
