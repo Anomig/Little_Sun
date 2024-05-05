@@ -41,10 +41,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <?php include_once("nav.inc.php"); ?>
   
 
-  <div class="index_managers">
+  <div class="index_title">
     <h1>Add new users! </h1>
 
-    <div class="manager_log_out">
+    <div class="log_out">
 
       <div>🔵</div>
       <div>
