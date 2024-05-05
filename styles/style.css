@@ -117,3 +117,36 @@
 }
 
 
+.index_managers {
+  display: flex;
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.manager_log_out {
+  display: flex; /* Zet de div "manager_log_out" ook om in een flex container */
+  align-items: center; 
+  font-size: larger;
+
+}
+
+.manager_log_out > div {
+  margin-right: 10px; /* Voeg wat ruimte toe tussen de elementen binnen de div */
+}
+
+.manager_log_out a {
+  color: black; /* Zwarte tekstkleur */
+  text-decoration: none; /* Verwijder onderstreping */
+  padding: 5px 10px; /* Ruimte binnen de knop */
+  border: 1px solid gray; /* Rand van 1px dik in grijze kleur */
+  border-radius: 8px; /* Afgeronde hoeken */
+  background-color: lightgray; /* Achtergrondkleur */
+}
+
+.manager_log_out a:hover {
+  background-color: gray; /* Achtergrondkleur bij hover */
+}
+
+
+
+

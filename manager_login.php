@@ -9,7 +9,7 @@ $username = "root";
 $password = "root";
 $dbname = "littlesun";
 
-function loginAsAdmin($username, $password, $conn) {
+function loginAsManager($username, $password, $conn) {
     $sql = "SELECT * FROM hub_managers WHERE email = :username";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
@@ -17,15 +17,15 @@ function loginAsAdmin($username, $password, $conn) {
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_logged_in'] = true; // hier ook
         return true;
     } else {
         return false;
     }
 }
 
-function logoutAsAdmin() {
-    unset($_SESSION['admin_logged_in']);
+function logoutAsManager() {
+    unset($_SESSION['admin_logged_in']); //moeten we dit nog aanpassen?
 }
 
 $pdo = Db::getConnection();
@@ -36,8 +36,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username = $_POST['username'];
         $password = $_POST['password'];
 
-        if (loginAsAdmin($username, $password, $pdo)) {
-            header("Location: hubs.php");
+        if (loginAsManager($username, $password, $pdo)) {
+            header("Location: manager_index.php"); //gaat naar index pagina voor managers
             exit();
         } else {
             $error_message = "Invalid email or password.";
@@ -49,12 +49,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Login</title>
+    <title>Manager 🔵 - Login</title>
 </head>
 <body>
     <?php include_once("nav.inc.php"); ?>
 
-    <h1>Admin Login</h1>
+    <h1>Welcome, manager 🔵! Please log in</h1>
 
     <div class="bg-slate-100 p-1">
       <form action="" method="post">
