@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $password = $_POST['password'];
 
         if (loginAsAdmin($username, $password, $pdo)) {
-            header("Location: hubs.php");
+            header("Location: admin_dashboard.php");
             exit();
         } else {
             $error_message = "Invalid email or password.";

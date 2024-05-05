@@ -21,4 +21,6 @@ class HubManager{
         $stmt->execute([$firstname, $lastname, $email, $hashed_password, $profile_picture, $hub_location]);
     }
 
+    
+
 }

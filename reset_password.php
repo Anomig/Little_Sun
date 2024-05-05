@@ -1,94 +1,75 @@
 <?php
-session_start();
-
+// Databaseverbinding en HubManager klasse inclusief
 include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubManager.php");
 
-function loginAsManager($username, $password, $conn) {
-    $sql = "SELECT * FROM hub_managers WHERE email = :username";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':username', $username);
-    $stmt->execute();
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user && password_verify($password, $user['password'])) {
-        $_SESSION['admin_logged_in'] = true;
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function logoutAsManager() {
-    unset($_SESSION['admin_logged_in']);
-}
-
-$pdo = Db::getConnection();
-$hubManager = new HubManager($pdo);
-
-$error_message = '';
-
+// Controleer of het formulier is ingediend
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if ($_POST['action'] === 'reset_password') {
-        // Hier voeg je de logica toe om het wachtwoord te resetten
-        // Dit kan bijvoorbeeld een e-mail zijn met een reset-link of een ander proces voor wachtwoordherstel
-        $reset_email = $_POST['reset_email'];
-        $new_password = $_POST['new_password'];
-        // Voeg hier de code toe om het wachtwoord te resetten
-        $error_message = "Password reset email sent successfully."; // Voorbeeldmelding, pas dit aan afhankelijk van je implementatie
+    // Controleer of het e-mailadres is ingevoerd
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+
+        // Maak verbinding met de database
+        $pdo = Db::getConnection();
+        $hubManager = new HubManager($pdo);
+
+        // Controleer of de manager met het opgegeven e-mailadres bestaat
+        $manager = $hubManager->getUserByEmail($email);
+
+        if ($manager) {
+            // Genereer een nieuw wachtwoord
+            $newPassword = generateRandomPassword();
+
+            // Update het wachtwoord van de manager in de database
+            $hubManager->updatePassword($manager['id'], $newPassword);
+
+            // Stuur het nieuwe wachtwoord naar de manager (hier kun je een e-mail sturen)
+
+            // Redirect naar een succespagina of geef een succesbericht weer
+            header("Location: reset_password_success.php");
+            exit();
+        } else {
+            // Manager met het opgegeven e-mailadres bestaat niet
+            $error_message = "Geen manager gevonden met dat e-mailadres.";
+        }
+    } else {
+        // E-mailadres is niet ingevoerd
+        $error_message = "Voer alstublieft uw e-mailadres in.";
     }
+}
+
+// Functie om een ​​willekeurig wachtwoord te genereren
+function generateRandomPassword($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $password = '';
+    for ($i = 0; $i < $length; $i++) {
+        $password .= $characters[rand(0, strlen($characters) - 1)];
+    }
+    return $password;
 }
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="nl">
+
 <head>
-    <title>Manager 🔵 - Reset Password</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Wachtwoord</title>
 </head>
+
 <body>
-    <?php include_once("nav.inc.php"); ?>
+    <h1>Reset Wachtwoord</h1>
 
-    <h1>Reset Password</h1>
+    <?php if (isset($error_message)) : ?>
+        <p><?php echo $error_message; ?></p>
+    <?php endif; ?>
 
-    <div class="bg-slate-100 p-1">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <?php if(isset($error_message)): ?>
-                <div class="success"><?php echo $error_message; ?></div>
-            <?php endif; ?>
-            <div class="p-3">
-                <label for="reset_email" class="text-slate-700">Email</label>
-                <input
-                    type="text"
-                    name="reset_email"
-                    id="reset_email"
-                    class="border-solid border-slate-20 border-2 rounded"
-                />
-            </div>
-
-            <div class="p-4">
-                <label for="new_password" class="text-slate-700">New Password</label>
-                <input
-                    type="password"
-                    name="new_password"
-                    id="new_password"
-                    class="border-solid border-slate-20 border-2 rounded"
-                />
-            </div>
-
-            <div class="p-2">
-                <input
-                    type="hidden"
-                    name="action"
-                    value="reset_password"
-                />
-                <input
-                    class="cursor-pointer p-2 rounded text-white font-bold bg-green-600"
-                    type="submit"
-                    value="Reset Password"
-                />
-            </div>
-        </form>
-    </div>
-
+    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        <label for="email">Voer uw e-mailadres in:</label>
+        <input type="email" name="email" id="email" required>
+        <button type="submit">Reset Wachtwoord</button>
+    </form>
 </body>
+
 </html>
