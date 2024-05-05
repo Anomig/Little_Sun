@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Gegenereerd op: 25 apr 2024 om 13:43
+-- Gegenereerd op: 05 mei 2024 om 18:02
 -- Serverversie: 5.7.24
 -- PHP-versie: 8.0.1
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `hub_location` (
   `id` int(11) NOT NULL,
   `name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `country` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL
+  `country` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -38,8 +38,8 @@ CREATE TABLE `hub_location` (
 --
 
 INSERT INTO `hub_location` (`id`, `name`, `country`) VALUES
-(3, 'TM', 'BE'),
-(7, 'Thomas More', 'BE');
+(10, 'Maastricht', 'Zambia'),
+(18, 'TM', 'Zambia');
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -59,7 +59,7 @@ ALTER TABLE `hub_location`
 -- AUTO_INCREMENT voor een tabel `hub_location`
 --
 ALTER TABLE `hub_location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
