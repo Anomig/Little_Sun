@@ -6,12 +6,10 @@ $pdo = Db::getConnection();
 
 $hubUser = new HubUser($pdo);
 
-$hubUser = new HubUser($pdo);
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Formuliergegevens ophalen
   $firstname = $_POST['firstname'];
-  $lastname = $_POST['lastname'];
+  $lastname = $_POST['lastname']; 
   $email = $_POST['email'];
   $password = $_POST['password'];
   $profile_picture = $_POST['profile_picture'];
@@ -19,9 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    // User toevoegen met behulp van de klasse
    $addResult = $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
-
 }
 
+$workers = $hubUser->getUsers(); //haal data van alle users om weer te geven
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,6 +90,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
   <div class="flex flex-row flex-wrap gap-1 p-2">
+
+  <h1>Workers in Hub</h1>
+
+   <!-- oplijsting user informatie -->
+   <div class="workers">
+
+    <ul>
+      <?php foreach ($workers as $worker): ?>
+        <li>
+          <div><img style="width: 50px;" src="https://thispersondoesnotexist.com" alt="Profile Picture"></div>
+          <div><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?></div>
+          <div><?php echo $worker['task']; ?></div>
+          
+        </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
 </body>
 
 </html>
