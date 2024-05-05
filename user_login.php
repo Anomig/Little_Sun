@@ -92,7 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   <?php include_once("nav.inc.php"); ?>
 
-  <h1>Welcome user 🟢! Please choose an account to log in:</h1>
+  <h1>Welcome user 🟢! 
+    <br> Please choose an account to log in:</h1>
 
   <div class="bg-slate-100 p-1 container">
     <form action="" method="post">
