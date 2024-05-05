@@ -1,6 +1,5 @@
 <?php 
 
-/*
 
 class HubUser{
     private $pdo;
@@ -10,7 +9,7 @@ class HubUser{
     }
 
     public function getUsers() {
-        $stmt = $this->pdo->query("SELECT * FROM hub_users);
+        $stmt = $this->pdo->query("SELECT * FROM hub_users");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
@@ -20,7 +19,7 @@ class HubUser{
         $sql = "INSERT INTO hub_users (firstname, lastname, email, password, profile_picture) VALUES (?,?,?,?,?)";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$firstname, $lastname, $email, $hashed_password, $profile_picture, $hub_location]);
+        $stmt->execute([$firstname, $lastname, $email, $hashed_password, $profile_picture]);
     }
 
     }

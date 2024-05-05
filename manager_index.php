@@ -1,27 +1,29 @@
 <?php
-/*include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubUser.php");
 
-    $pdo = Db::getConnection();
-
-    $hubUser = new HubUser($pdo);
+$pdo = Db::getConnection();
 
 $hubUser = new HubUser($pdo);
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Formuliergegevens ophalen
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $profile_picture = $_POST['profile_picture'];
-    
+$hubUser = new HubUser($pdo);
 
-    // Manager toevoegen met behulp van de klasse
-    $hubUser->addHubUser($firstname, $lastname, $email, $password, $profile_picture);
-}*/
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  // Formuliergegevens ophalen
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $profile_picture = $_POST['profile_picture'];
 
-?><!DOCTYPE html>
+
+   // User toevoegen met behulp van de klasse
+   $addResult = $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
+
+}
+
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -32,14 +34,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
   <link rel="stylesheet" href="styles/style.css">
   <style>
     body {
-      margin: 25px; /* Voeg een marge van 20 pixels toe aan alle zijden van het body-element */
+      margin: 25px;
+      /* Voeg een marge van 20 pixels toe aan alle zijden van het body-element */
     }
   </style>
 </head>
 
-<body >
+<body>
   <?php include_once("nav.inc.php"); ?>
-  
+
 
   <div class="index_title">
     <h1>Add new users! </h1>
