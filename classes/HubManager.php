@@ -21,6 +21,14 @@ class HubManager{
         $stmt->execute([$firstname, $lastname, $email, $hashed_password, $profile_picture, $hub_location]);
     }
 
-    
 
+    // // Voeg deze methode toe om alle taken op te halen
+    // public function getTasks()
+    // {
+    //     $sql = "SELECT * FROM `hub_tasks`";
+    //     $stmt = $this->pdo->query($sql);
+    //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // }
+
+    // // Andere methoden van de klasse hieronder...
 }

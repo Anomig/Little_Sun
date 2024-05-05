@@ -1,6 +1,8 @@
 <?php
 include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubUser.php");
+// include_once(__DIR__ . "/classes/HubManager.php");
+
 
 $pdo = Db::getConnection();
 
@@ -20,6 +22,53 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 $workers = $hubUser->getUsers(); //haal data van alle users om weer te geven
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["assign_task"])) {
+  $task_id = $_POST["task_id"];
+  $user_id = $_POST["user_id"];
+
+  try {
+      // Voeg de toewijzing toe aan de database
+      $sql = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
+      $stmt = $pdo->prepare($sql);
+      $stmt->bindParam(':user_id', $user_id);
+      $stmt->bindParam(':task_id', $task_id);
+      $stmt->execute();
+      echo "Task successfully assigned to the user.";
+  } catch (PDOException $e) {
+      echo "Error: " . $e->getMessage();
+  }
+}
+
+include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/HubUser.php");
+
+$pdo = Db::getConnection();
+$hubUser = new HubUser($pdo);
+
+// Controleer of de vereiste parameters zijn ontvangen
+if(isset($_GET['user_id']) && isset($_GET['task_id'])) {
+    $userId = $_GET['user_id'];
+    $taskId = $_GET['task_id'];
+
+    try {
+        // Update de taak met de toegewezen gebruiker
+        $sql = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->bindParam(':task_id', $taskId);
+        $stmt->execute();
+        // Geef een succesbericht terug
+        echo "Task successfully assigned to the user.";
+    } catch (PDOException $e) {
+        // Geef een foutmelding terug als er een fout optreedt
+        echo "Error: " . $e->getMessage();
+    }
+} else {
+    // Geef een foutmelding terug als de vereiste parameters ontbreken
+    echo "Error: Required parameters are missing.";
+}
+?>
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -100,13 +149,51 @@ $workers = $hubUser->getUsers(); //haal data van alle users om weer te geven
       <?php foreach ($workers as $worker): ?>
         <li>
           <div><img style="width: 50px;" src="https://thispersondoesnotexist.com" alt="Profile Picture"></div>
-          <div><?php echo $worker['first_name'] . ' ' . $worker['last_name']; ?></div>
-          <div><?php echo $worker['task']; ?></div>
+          <div><?php echo $worker['firstname'] . ' ' . $worker['lastname']; ?></div>
+          <!-- <div><?php echo $worker['task']; ?></div> -->
           
         </li>
       <?php endforeach; ?>
     </ul>
   </div>
+
+  <h2>All Tasks</h2>
+<ul>
+    <?php
+    // Haal alle taken op
+    $tasks = $hubUser->getTasks();
+    
+    // Haal alle gebruikers op
+    $allUsers = $hubUser->getUsers();
+
+    // Toon de taken en voeg een dropdown-menu toe voor het toewijzen van de taak aan een gebruiker
+    foreach ($tasks as $task) {
+        echo "<li>" . $task['task_name'] . " - " . $task['task_description'] . " - Assigned to: ";
+        echo "<select name='assign_user' onchange='assignTask(this.value, ".$task['id'].")'>";
+        echo "<option value=''>Not Assigned</option>";
+        foreach ($allUsers as $user) {
+            $selected = ($task['assigned_to'] == $user['id']) ? "selected" : "";
+            echo "<option value='".$user['id']."' ".$selected.">".$user['firstname']." ".$user['lastname']."</option>";
+        }
+        echo "</select></li>";
+    }
+    ?>
+</ul>
+
 </body>
+<script>
+// JavaScript-functie om de taak toe te wijzen aan een gebruiker via AJAX
+function assignTask(userId, taskId) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            // Vernieuw de pagina om de wijzigingen te zien
+            location.reload();
+        }
+    };
+    xhttp.open("GET", "assign_task.php?user_id=" + userId + "&task_id=" + taskId, true);
+    xhttp.send();
+}
+</script>
 
 </html>
