@@ -16,7 +16,7 @@ class HubUser{
     public function addUser($firstname, $lastname, $email, $password, $profile_picture){
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO hub_users (first_name, last_name, email, password, profile_picture) VALUES (?,?,?,?,?)";
+        $sql = "INSERT INTO hub_users (firstname, lastname, email, password, profile_picture) VALUES (?,?,?,?,?)";
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$firstname, $lastname, $email, $hashed_password, $profile_picture]);

@@ -82,7 +82,6 @@ if(isset($_GET['user_id']) && isset($_GET['task_id'])) {
   <style>
     body {
       margin: 25px;
-      /* Voeg een marge van 20 pixels toe aan alle zijden van het body-element */
     }
   </style>
 </head>
