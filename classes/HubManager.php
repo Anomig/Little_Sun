@@ -24,7 +24,28 @@ class HubManager
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$firstname, $lastname, $email, $hashed_password, $profile_picture, $hub_location]);
     }
+    
+    public function resetPassword($email, $new_password)
+    {
+        // Controleer eerst of de manager met het opgegeven e-mailadres bestaat
+        $stmt = $this->pdo->prepare("SELECT * FROM hub_managers WHERE email = ?");
+        $stmt->execute([$email]);
+        $manager = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$manager) {
+            return false; // Manager met opgegeven e-mailadres niet gevonden
+        }
+
+        // Hash het nieuwe wachtwoord
+        $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+
+        // Update het wachtwoord in de database
+        $stmt = $this->pdo->prepare("UPDATE hub_managers SET password = ? WHERE email = ?");
+        $stmt->execute([$hashed_password, $email]);
+
+        return true; // Wachtwoord succesvol gereset
+    }
+    
 
     // // Voeg deze methode toe om alle taken op te halen
     // public function getTasks()
