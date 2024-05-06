@@ -22,8 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header('Location: user_index.php');
     exit;
 }
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -39,11 +38,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .time_off {
-                display: flex;
-                flex-direction: column;
-                max-width: 40%;
+            display: flex;
+            flex-direction: column;
+            max-width: 40%;
 
-            }
+        }
     </style>
 </head>
 

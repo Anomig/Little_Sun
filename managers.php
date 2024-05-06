@@ -1,4 +1,4 @@
-<?php 
+<?php
 // managers.php
 
 // Inclusie van de databaseklasse en de klasse voor Hub Manager

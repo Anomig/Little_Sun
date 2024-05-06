@@ -21,7 +21,7 @@
 
 
   <div class="index_title">
-    <h1>Hi!</h1>    
+    <h1>Hi!</h1>
 
     <?php include_once("nav.inc.php"); ?>
 

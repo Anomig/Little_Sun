@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,16 +9,19 @@
         * {
             font-family: sans-serif;
         }
+
         nav ul {
             list-style: none;
             margin: 0;
             padding: 0;
             background-color: black;
         }
+
         nav ul li {
             display: inline-block;
             position: relative;
         }
+
         nav ul li a {
             display: block;
             padding: 10px 20px;
@@ -27,9 +31,12 @@
         }
 
         nav ul li a:hover {
-            background-color: yellow; /* Verander de achtergrondkleur bij hover */
-            color: black; /* Verander de tekstkleur bij hover */
+            background-color: yellow;
+            /* Verander de achtergrondkleur bij hover */
+            color: black;
+            /* Verander de tekstkleur bij hover */
         }
+
         nav ul li ul {
             display: none;
             position: absolute;
@@ -41,6 +48,7 @@
         nav ul li:hover ul {
             display: block;
         }
+
         nav ul li ul li {
             display: block;
             white-space: nowrap;
@@ -59,17 +67,18 @@
         }
     </style>
 </head>
+
 <body>
-<nav>
-     <ul>
-        <li>
-            <a href="#">ABOUT US &or;</a>
-            <ul>
-                <li><a href="#">Board</a></li>
-                <li><a href="#">Mission</a></li>
-                <li><a href="#">Team</a></li>
-            </ul>
-        </li>
+    <nav>
+        <ul>
+            <li>
+                <a href="#">ABOUT US &or;</a>
+                <ul>
+                    <li><a href="#">Board</a></li>
+                    <li><a href="#">Mission</a></li>
+                    <li><a href="#">Team</a></li>
+                </ul>
+            </li>
             <li>
                 <a href="#">PROGRAMS &or;</a>
                 <ul>
@@ -85,5 +94,4 @@
             <li><a href="#">JOIN</a></li>
             <li><a href="#">DONATE</a></li>
         </ul>
-</nav>
-
+    </nav>

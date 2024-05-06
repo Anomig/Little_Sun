@@ -27,14 +27,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Manager toevoegen met behulp van de klasse
     $hubManager->addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location);
 }
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Little Sun</title>
 </head>
+
 <body>
     <?php include_once("nav.inc.php"); ?>
 
@@ -92,4 +93,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="flex flex-row flex-wrap gap-1 p-2">
 </body>
+
 </html>

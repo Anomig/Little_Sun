@@ -46,8 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 }
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
 
 <head>
@@ -60,15 +59,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       padding: 0;
     }
 
-    h1{
+    h1 {
       margin-top: 40px;
     }
 
-    .profiles{
+    .profiles {
       margin-top: 100px;
 
       display: flex;
-      
+
       flex-direction: row;
       justify-content: space-between;
       padding: 20px;
@@ -92,8 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
   <?php include_once("nav.inc.php"); ?>
 
-  <h1>Welcome user 🟢! 
-    <br> Please choose an account to log in:</h1>
+  <h1>Welcome user 🟢!
+    <br> Please choose an account to log in:
+  </h1>
 
   <div class="bg-slate-100 p-1 container">
     <form action="" method="post">

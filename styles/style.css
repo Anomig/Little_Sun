@@ -51,7 +51,6 @@
   background-color: #f0f0f0;
 } */
 
-
 * {
   font-family: sans-serif;
 }
@@ -63,9 +62,9 @@
   background-color: black;
 }
 
-#logo{
-    width: 200px;
-    margin: 10px;
+#logo {
+  width: 200px;
+  margin: 10px;
 }
 .nav .ul .li {
   display: inline-block;
@@ -80,8 +79,8 @@
 }
 
 .nav .ul .li a:hover {
-  background-color: yellow; 
-  color: black; 
+  background-color: yellow;
+  color: black;
 }
 .nav .ul .li .subnav {
   display: none;
@@ -110,24 +109,21 @@
 .nav .ul .li .subnav a:hover {
   background-color: yellow;
 }
-#log{
-    background-color: yellow;
-    color: black;
-    
+#log {
+  background-color: yellow;
+  color: black;
 }
-
 
 .index_title {
   display: flex;
-  justify-content: space-between; 
-  align-items: center; 
+  justify-content: space-between;
+  align-items: center;
 }
 
 .log_out {
   display: flex; /* Zet de div "manager_log_out" ook om in een flex container */
-  align-items: center; 
+  align-items: center;
   font-size: larger;
-
 }
 
 .log_out > div {
@@ -146,7 +142,3 @@
 .log_out a:hover {
   background-color: gray; /* Achtergrondkleur bij hover */
 }
-
-
-
-

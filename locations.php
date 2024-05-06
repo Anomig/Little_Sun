@@ -103,8 +103,7 @@ try {
 
 // Verbinding sluiten
 $conn = null;
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="nl">
 
 <head>
@@ -160,7 +159,7 @@ $conn = null;
                 </select>
                 <button type="submit">Opslaan</button>
             </form>
-            
+
             <!-- Formulier voor het verwijderen van een locatie -->
             <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                 <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
