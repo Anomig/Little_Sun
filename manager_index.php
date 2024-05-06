@@ -1,72 +1,42 @@
 <?php
 include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubUser.php");
-// include_once(__DIR__ . "/classes/HubManager.php");
-
 
 $pdo = Db::getConnection();
-
 $hubUser = new HubUser($pdo);
 
+// Controleer of het formulier is verzonden en voeg dan de gebruiker toe
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  // Formuliergegevens ophalen
-  $firstname = $_POST['firstname'];
-  $lastname = $_POST['lastname'];
-  $email = $_POST['email'];
-  $password = $_POST['password'];
-  $profile_picture = $_POST['profile_picture'];
+    // Formuliergegevens ophalen
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $profile_picture = $_POST['profile_picture'];
 
-
-  // User toevoegen met behulp van de klasse
-  $addResult = $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
+    // Voeg de gebruiker toe met behulp van de klasse
+    $addResult = $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
 }
 
-$workers = $hubUser->getUsers(); //haal data van alle users om weer te geven
+// Haal alle gebruikers op om weer te geven
+$workers = $hubUser->getUsers();
 
+// Controleer of de taak aan een gebruiker moet worden toegewezen
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["assign_task"])) {
-  $task_id = $_POST["task_id"];
-  $user_id = $_POST["user_id"];
+    $task_id = $_POST["task_id"];
+    $user_id = $_POST["user_id"];
 
-  try {
-    // Voeg de toewijzing toe aan de database
-    $sql = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->bindParam(':task_id', $task_id);
-    $stmt->execute();
-    echo "Task successfully assigned to the user.";
-  } catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-  }
-}
-
-include_once(__DIR__ . "/classes/db.php");
-include_once(__DIR__ . "/classes/HubUser.php");
-
-$pdo = Db::getConnection();
-$hubUser = new HubUser($pdo);
-
-// Controleer of de vereiste parameters zijn ontvangen
-if (isset($_GET['user_id']) && isset($_GET['task_id'])) {
-  $userId = $_GET['user_id'];
-  $taskId = $_GET['task_id'];
-
-  try {
-    // Update de taak met de toegewezen gebruiker
-    $sql = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(':user_id', $userId);
-    $stmt->bindParam(':task_id', $taskId);
-    $stmt->execute();
-    // Geef een succesbericht terug
-    echo "Task successfully assigned to the user.";
-  } catch (PDOException $e) {
-    // Geef een foutmelding terug als er een fout optreedt
-    echo "Error: " . $e->getMessage();
-  }
-} else {
-  // Geef een foutmelding terug als de vereiste parameters ontbreken
-  echo "Error: Required parameters are missing.";
+    try {
+        // Update de taak met de toegewezen gebruiker
+        $sql = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':user_id', $user_id);
+        $stmt->bindParam(':task_id', $task_id);
+        $stmt->execute();
+        echo "Task successfully assigned to the user.";
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
 }
 ?><!DOCTYPE html>
 <html lang="en">
