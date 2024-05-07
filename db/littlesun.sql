@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Gegenereerd op: 06 mei 2024 om 12:01
+-- Gegenereerd op: 07 mei 2024 om 08:13
 -- Serverversie: 5.7.24
 -- PHP-versie: 8.0.1
 
@@ -77,13 +77,14 @@ INSERT INTO `hub_managers` (`id`, `firstname`, `lastname`, `email`, `password`, 
 (15, 'Amy', 'XD', 'amy@XD.be', '$2y$10$4InImDu4I.d0lzrT8u7m.OK1t9S8y2gQ2lbSLo1/3NEaOGfddowR.', 'achtergrond.png', 'Lier'),
 (16, 'Amy', 'XD', 'amy@XD.be', '$2y$10$jpul..4d5i2cyI.Wei9qhOCFPDdG6zKkXkeWTAfK4U4iKIIX8epkq', 'achtergrond.png', 'Lier'),
 (17, 'Elliot', 'VB', 'Elliot@vb.be', '$2y$10$RBElhBUhhjF9xyjMHh.SiuFzBMlM6Q58Q3Ve7k1TI.2kLbrKFh2pq', 'achtergrond.png', 'Boechout'),
-(18, 'Pommelien', 'Thijs', 'Pommelien@thijs.be', '$2y$10$XXcXaa/VCvcctD6hqDN0beaFJpe4bIiQ6F0bESAXey/E1CHgsU/R.', 'https://image.demorgen.be/240472015/width/2480/pommelien-thijs', 'Leuven'),
+(18, 'Pommelien', 'Thijs', 'Pommelien@thijs.be', '1234', 'https://image.demorgen.be/240472015/width/2480/pommelien-thijs', 'Leuven'),
 (19, 'Hannelore', 'Van Buynderen', 'hannelorevb04', '$2y$10$ttNVCxVo/Pb1Ie2wKABb0eW95wLKY43S90JnI.59LxfkG7M3sOCLi', 'achtergrond.png', 'Mechelen'),
 (20, 'Hannelore', 'Van Buynderen', 'hannelorevb@hotmail.be', '$2y$10$YeF7v44Wrv1yYWMKMRZ.xevEp0t2yU0foe.twWoIm4bM0qhwqeS4i', 'Afbeelding van WhatsApp op 2024-03-24 om 22.44.59_ad3dfd8f.jpg', 'Zambia'),
 (21, 'hub', 'manager', 'hub@manager.be', '$2y$10$kQxYVk4SJIa2LMYaXAz77.tQBSNkWxd6sbuVjAORjHWxOYZhh8Dz2', 'Afbeelding van WhatsApp op 2024-03-24 om 23.03.02_f29099e3.jpg', '10'),
 (22, 'hub', 'manager', 'hub@manager.be', '$2y$10$5VWTIUcOkqxUTv/MTF5s8Okv0fBXrP4msB3B5nGvphHhZ0Lp3BiyC', 'Afbeelding van WhatsApp op 2024-03-24 om 23.03.02_f29099e3.jpg', '10'),
 (23, 'hub', 'manager', 'hub@manager.be', '$2y$10$mo36S0/6KJZ1cqqrRmclH.yMo312k6wwJvcvOMJn3pLG0P57rVxpu', 'Afbeelding van WhatsApp op 2024-03-24 om 23.03.02_f29099e3.jpg', '10'),
-(24, 'hub', 'manager', 'hub@manager.be', '$2y$10$EdU5crS.iddjyhUjJl7sjuElcyWHTb6fcisMM99n8gR1wkdFfQGPy', 'Afbeelding van WhatsApp op 2024-03-24 om 23.03.02_f29099e3.jpg', '10');
+(24, 'hub', 'manager', 'hub@manager.be', '$2y$10$EdU5crS.iddjyhUjJl7sjuElcyWHTb6fcisMM99n8gR1wkdFfQGPy', 'Afbeelding van WhatsApp op 2024-03-24 om 23.03.02_f29099e3.jpg', '10'),
+(25, 'Pommelien', 'Thijs', 'info@pommelien.be', '$2y$10$9rp6H2axbBUHky6auBdnoOEbVQn9VgX0Fj2EZNimh50ihQEWFQAzm', 'IMG_4073.jpg', '28');
 
 -- --------------------------------------------------------
 
@@ -134,7 +135,27 @@ INSERT INTO `hub_users` (`id`, `firstname`, `lastname`, `email`, `password`, `pr
 (2, 'Hannelore', 'Van Buynderen', 'hannelorevb@hotmail.be', '$2y$10$KuwkrIQud3n76Aqz8KSKFu/.X1cBlfHtO0F92RxLUQnC05Z8GQOKG', 'IMG_4013.jpg'),
 (3, 'Hannelore', 'Van Buynderen', 'hannelorevb@hotmail.be', '$2y$10$/2jVrTfU3JmBFAoSJT5CkO8RfHxlBDaJIf3j/ry30kCMp4cu0ZIk2', 'Afbeelding van WhatsApp op 2024-03-24 om 22.42.10_c7257563.jpg'),
 (4, 'Hannelore', 'Van Buynderen', 'elliot@dehond.be', '$2y$10$gpelQXb3JZanE9laroagceL4dRxs6CrtGAJCRPmxqMUrjA4i57qzS', 'Afbeelding van WhatsApp op 2024-03-24 om 23.04.09_febbe64b.jpg'),
-(5, 'Pommelien', 'Thijs', 'Pommelien@thijs.be', '$2y$10$rPN5ZKOw8j1Oh3v1VB6KV.2ppeUsHbmgwEhUib59ccUuIREFH2F6q', 'Afbeelding van WhatsApp op 2023-08-26 om 15.44.28.jpg');
+(5, 'Pommelien', 'Thijs', 'Pommelien@thijs.be', '$2y$10$6KH4m4Wj9iXpn81hGg9ZW.w8TY4tfaHPUXHi77KVKrYnIlE/j2Eq6', 'Afbeelding van WhatsApp op 2023-08-26 om 15.44.28.jpg'),
+(6, 'Jane', 'Rizzoli', 'jane@rizzoli.be', '$2y$10$Q45qluDlQeiwK2AxiMOdmuVVs0FKsUGdqaT2PRyVLxlZ.usNMDlie', 'Screenshot_2023-05-17-21-30-17-524_com.miui.gallery.jpg'),
+(7, 'Jane', 'Rizzoli', 'jane@rizzoli.be', '$2y$10$CEaHJb1xgpgwZtSge51nDepaMB02y31SFKkx/OKiPRy3tqiCwhHOC', 'Screenshot_2023-05-17-21-30-17-524_com.miui.gallery.jpg'),
+(8, 'jane', 'rizzoli', 'jane@rizzoli.be', '$2y$10$3woZ/emUKl1PpSU2dB0Aa.Nttbs3338F0VFiRfLBKQmDGbFpzSaKS', 'Afbeelding van WhatsApp op 2024-03-24 om 22.55.29_03020481.jpg'),
+(9, 'jane', 'rizzoli', 'jane@rizzoli.be', '$2y$10$u5Z14F1KBErSde057PGKHumia0vYVgE4ipJ96VbsP9rzfXt0NhWO6', 'Afbeelding van WhatsApp op 2024-03-24 om 22.55.29_03020481.jpg'),
+(10, 'Naomi', 'XD', 'Naomi@XD.be', '$2y$10$D3L3Y0CAD7T/xyXOOm1fle0AqOQcBRtT162qcRORpIw1IWpV3Ygeq', 'Afbeelding van WhatsApp op 2024-03-24 om 22.42.10_c7257563.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `time_off`
+--
+
+CREATE TABLE `time_off` (
+  `id` int(11) NOT NULL,
+  `start_date` varchar(300) NOT NULL,
+  `end_date` varchar(300) NOT NULL,
+  `reason` varchar(300) NOT NULL,
+  `comments` varchar(300) NOT NULL,
+  `status` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -165,6 +186,12 @@ ALTER TABLE `hub_users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexen voor tabel `time_off`
+--
+ALTER TABLE `time_off`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT voor geëxporteerde tabellen
 --
 
@@ -178,7 +205,7 @@ ALTER TABLE `hub_location`
 -- AUTO_INCREMENT voor een tabel `hub_managers`
 --
 ALTER TABLE `hub_managers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT voor een tabel `hub_tasks`
@@ -190,7 +217,13 @@ ALTER TABLE `hub_tasks`
 -- AUTO_INCREMENT voor een tabel `hub_users`
 --
 ALTER TABLE `hub_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT voor een tabel `time_off`
+--
+ALTER TABLE `time_off`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
