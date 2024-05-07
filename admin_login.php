@@ -29,7 +29,7 @@ $pdo = Db::getConnection();
 $hubManager = new HubManager($pdo);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if ($_POST['action'] === 'login') {
+  if (isset($_POST['action']) && $_POST['action'] === 'login') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
