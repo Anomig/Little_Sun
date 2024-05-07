@@ -9,7 +9,7 @@
 
 <body>
     <?php include_once("nav.inc.php"); ?>
-    <a href="hubs.php">Hubs</a>
+    <a href="admin_add_manager.php">Add manager</a>
     <a href="admin_tasks.php">Tasks</a>
     <div class="log_out">
         <div>🔴</div>
