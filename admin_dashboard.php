@@ -10,7 +10,7 @@
 <body>
     <?php include_once("nav.inc.php"); ?>
     <a href="hubs.php">Hubs</a>
-    <a href="tasks.php">Tasks</a>
+    <a href="admin_tasks.php">Tasks</a>
     <div class="log_out">
         <div>🔴</div>
         <a href="logout.php">Log out</a>
