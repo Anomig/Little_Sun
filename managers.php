@@ -40,6 +40,8 @@ foreach ($managers as $manager) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Managers</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/nav.css">
     <style>
         .managers {
             display: flex;

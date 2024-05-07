@@ -2,10 +2,16 @@
 <html>
 
 <head>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Little Sun ☀️</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    
 </head>
 
 <body>
+<?php include_once("nav.inc.php"); ?>
     <h1>Welcome to Little Sun☀️</h1>
 
     <p>Choose your role:</p>

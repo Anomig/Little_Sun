@@ -41,16 +41,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_task"])) {
         echo "Error: " . $e->getMessage();
     }
 }
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/nav.css">
+
+
 </head>
 
 <body>
+    <?php include_once("nav.inc.php"); ?>
     <h2>Add New Task</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <label for="task_name">Task Name:</label>

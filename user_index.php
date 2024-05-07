@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Little Sun</title>
-
+  <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/nav.css">
   <link rel="stylesheet" href="styles/style.css">
   <style>
     body {
@@ -23,7 +24,7 @@
   <div class="index_title">
     <h1>Hi!</h1>
 
-    <?php include_once("nav.inc.php"); ?>
+
 
     <div class="log_out">
 

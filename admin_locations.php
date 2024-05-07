@@ -110,10 +110,14 @@ $conn = null;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hublocaties Beheren</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/locations.css">
 </head>
 
 <body>
+<?php include_once("nav.inc.php"); ?>
+<div class="content">
     <div class="location">
         <h3>Nieuwe locatie toevoegen</h3>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
@@ -168,6 +172,8 @@ $conn = null;
             </form>
         </div>
     <?php endforeach; ?>
+
+    </div>
 
     <!-- JavaScript voor interactie -->
     <script>

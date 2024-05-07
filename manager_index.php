@@ -7,15 +7,15 @@ $hubUser = new HubUser($pdo);
 
 // Controleer of het formulier is verzonden en voeg dan de gebruiker toe
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Formuliergegevens ophalen
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $profile_picture = $_POST['profile_picture'];
+  // Formuliergegevens ophalen
+  $firstname = $_POST['firstname'];
+  $lastname = $_POST['lastname'];
+  $email = $_POST['email'];
+  $password = $_POST['password'];
+  $profile_picture = $_POST['profile_picture'];
 
-    // Voeg de gebruiker toe met behulp van de klasse
-    $addResult = $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
+  // Voeg de gebruiker toe met behulp van de klasse
+  $addResult = $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
 }
 
 // Haal alle gebruikers op om weer te geven
@@ -23,35 +23,31 @@ $workers = $hubUser->getUsers();
 
 // Controleer of de taak aan een gebruiker moet worden toegewezen
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["assign_task"])) {
-    $task_id = $_POST["task_id"];
-    $user_id = $_POST["user_id"];
+  $task_id = $_POST["task_id"];
+  $user_id = $_POST["user_id"];
 
-    try {
-        // Update de taak met de toegewezen gebruiker
-        $sql = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
-        $stmt = $pdo->prepare($sql);
-        $stmt->bindParam(':user_id', $user_id);
-        $stmt->bindParam(':task_id', $task_id);
-        $stmt->execute();
-        echo "Task successfully assigned to the user.";
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
-    }
+  try {
+    // Update de taak met de toegewezen gebruiker
+    $sql = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->bindParam(':task_id', $task_id);
+    $stmt->execute();
+    echo "Task successfully assigned to the user.";
+  } catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+  }
 }
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Little Sun</title>
-
-  <link rel="stylesheet" href="styles/style.css">
-  <style>
-    body {
-      margin: 25px;
-    }
-  </style>
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Little Sun ☀️</title>
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    
 </head>
 
 <body>

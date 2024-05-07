@@ -46,6 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <head>
   <title>Admin Login</title>
+  
 </head>
 
 <body>
