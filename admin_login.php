@@ -3,12 +3,7 @@ session_start();
 
 include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubManager.php");
-
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "littlesun";
-
+ 
 function loginAsAdmin($username, $password, $conn)
 {
   $sql = "SELECT * FROM hub_managers WHERE email = :username";
