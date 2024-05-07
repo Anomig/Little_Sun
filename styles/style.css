@@ -121,24 +121,24 @@
 }
 
 .log_out {
-  display: flex; /* Zet de div "manager_log_out" ook om in een flex container */
+  display: flex; 
   align-items: center;
   font-size: larger;
 }
 
 .log_out > div {
-  margin-right: 10px; /* Voeg wat ruimte toe tussen de elementen binnen de div */
+  margin-right: 10px;
 }
 
 .log_out a {
-  color: black; /* Zwarte tekstkleur */
-  text-decoration: none; /* Verwijder onderstreping */
-  padding: 5px 10px; /* Ruimte binnen de knop */
-  border: 1px solid gray; /* Rand van 1px dik in grijze kleur */
-  border-radius: 8px; /* Afgeronde hoeken */
-  background-color: lightgray; /* Achtergrondkleur */
+  color: black;
+  text-decoration: none;
+  padding: 5px 10px; 
+  border: 1px solid gray; 
+  border-radius: 8px; 
+  background-color: lightgray; 
 }
 
 .log_out a:hover {
-  background-color: gray; /* Achtergrondkleur bij hover */
+  background-color: gray; 
 }

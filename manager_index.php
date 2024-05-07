@@ -47,6 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["assign_task"])) {
     <title>Little Sun ☀️</title>
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/nav.css">
+    <link rel="stylesheet" href="styles/style.css">
     
 </head>
 
