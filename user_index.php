@@ -3,7 +3,10 @@ session_start();
 include_once(__DIR__ . "/classes/db.php");
 include_once("nav.inc.php");
 
+var_dump($_SESSION);
+
 $pdo = Db::getConnection();
+
 
 
 if (!isset($status) || !$status) {
@@ -53,11 +56,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_clock'])) {
   }
 }
 
-// tekst button
-$stmt = $pdo->prepare("SELECT * FROM work_times WHERE clock_out IS NULL ORDER BY id DESC LIMIT 1");
-$stmt->execute();
-$status = $stmt->fetch();
-$button_text = $status ? "Clock Out" : "Clock In";
+
+$task_stmt = $pdo->prepare("SELECT assigned_task_name, assigned_task_description FROM hub_users WHERE id = :user_id");
+$task_stmt->execute(['user_id' => $user_id]);
+$tasks = $task_stmt->fetchAll(PDO::FETCH_ASSOC);
+
 
 
 /*<div id="work_duration_message" style="display: <?php echo ($status && $button_text === 'Clock Out') ? 'block' : 'none'; ?>;">
@@ -70,7 +73,8 @@ $button_text = $status ? "Clock Out" : "Clock In";
 
     WOU DIT IN HTML ZETTEN, MAAR LUKTE NIET */
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -101,11 +105,21 @@ $button_text = $status ? "Clock Out" : "Clock In";
 
     <button name="toggle_clock"><?php echo $button_text; ?></button>
 
-    
-
   </form>
+
+  <div>
+    <h2>Task overview:</h2>
+    <ul>
+    <?php if (!empty($tasks)): ?>
+            <?php foreach ($tasks as $task): ?>
+                <li><?php echo htmlspecialchars($task['assigned_task_name']) . ": " . htmlspecialchars($task['assigned_task_description']); ?></li>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <li>No tasks assigned.</li>
+        <?php endif; ?>
+    </ul>
+  </div>
 
 </body>
 
 </html>
-
