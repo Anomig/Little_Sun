@@ -1,70 +1,88 @@
 <?php
+
 include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubUser.php");
 
 $pdo = Db::getConnection();
 $hubUser = new HubUser($pdo);
 
-// Controleer of het formulier is verzonden en voeg dan de gebruiker toe
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_user'])) {
-  // Formuliergegevens ophalen
-  $firstname = $_POST['firstname'] ?? '';
-  $lastname = $_POST['lastname'] ?? '';
-  $email = $_POST['email'] ?? '';
-  $password = $_POST['password'] ?? '';
-  $profile_picture = $_POST['profile_picture'] ?? '';
+// $locations = []; // Array om locaties op te slaan
 
-  // Controleer of alle vereiste velden zijn ingevuld
-  if (!empty($firstname) && !empty($lastname) && !empty($email) && !empty($password)) {
-    // Voeg de gebruiker toe met behulp van de klasse
-    $addResult = $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
-    if ($addResult) {
-      echo "User added successfully.";
-    } else {
-      echo "Failed to add user.";
+// try {
+//     // Query om locaties op te halen
+//     $stmt = $pdo->query("SELECT id, name, country FROM hub_location");
+//     $locations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+// } catch (PDOException $e) {
+//     error_log("Database error: " . $e->getMessage());
+// }
+
+// Variabelen voor foutmelding en popup-melding
+$error = "";
+$popupMessage = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Formuliergegevens ophalen
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $profile_picture = $_POST['profile_picture'];
+    // $hub_location = $_POST['hub_location'];
+
+    try {
+        // Controleren of het e-mailadres al bestaat in de database
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM hub_users WHERE email = ?");
+        $stmt->execute([$email]);
+        $count = $stmt->fetchColumn();
+
+        if ($count > 0) {
+            // Het e-mailadres bestaat al, toon een foutmelding aan de gebruiker
+            $error = "This e-mail adress is already being used.";
+        } else {
+            // Het e-mailadres bestaat niet, voer de registratie uit
+            $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
+            $popupMessage = "New user added!";
+        }
+    } catch (PDOException $e) {
+        $error = "There has been an error, please reload the page.";
     }
-  } else {
-    echo "All fields are required.";
-  }
 }
-
 // Haal alle gebruikers op om weer te geven
 $workers = $hubUser->getUsers();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_assignment"])) {
-  $task_id = $_POST["task_id"];
-  $user_id = $_POST["assign_user"];
+    $task_id = $_POST["task_id"];
+    $user_id = $_POST["assign_user"];
 
-  try {
-      $pdo->beginTransaction();
+    try {
+        $pdo->beginTransaction();
 
-      // Update the task assignment
-      $sqlTask = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
-      $stmtTask = $pdo->prepare($sqlTask);
-      $stmtTask->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-      $stmtTask->bindParam(':task_id', $task_id, PDO::PARAM_INT);
-      $stmtTask->execute();
+        // Update the task assignment
+        $sqlTask = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
+        $stmtTask = $pdo->prepare($sqlTask);
+        $stmtTask->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmtTask->bindParam(':task_id', $task_id, PDO::PARAM_INT);
+        $stmtTask->execute();
 
-      // Update the user's assigned task name and description
-      $sqlUser = "UPDATE hub_users u
-                  JOIN hub_tasks t ON t.id = :task_id
-                  SET u.assigned_task_name = t.task_name,
-                      u.assigned_task_description = t.task_description
-                  WHERE u.id = :user_id";
-      $stmtUser = $pdo->prepare($sqlUser);
-      $stmtUser->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-      $stmtUser->bindParam(':task_id', $task_id, PDO::PARAM_INT);
-      $stmtUser->execute();
+        // Update the user's assigned task name and description
+        $sqlUser = "UPDATE hub_users u
+                    JOIN hub_tasks t ON t.id = :task_id
+                    SET u.assigned_task_name = t.task_name,
+                        u.assigned_task_description = t.task_description
+                    WHERE u.id = :user_id";
+        $stmtUser = $pdo->prepare($sqlUser);
+        $stmtUser->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+        $stmtUser->bindParam(':task_id', $task_id, PDO::PARAM_INT);
+        $stmtUser->execute();
 
-      $pdo->commit();
+        $pdo->commit();
 
-      echo "Task successfully assigned to the user and user table updated.";
-  } catch (PDOException $e) {
-      $pdo->rollBack();
-      echo "Error: " . $e->getMessage();
-  }
+        echo "Task successfully assigned to the user and user table updated.";
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        echo "Error: " . $e->getMessage();
+    }
 }
-
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -124,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_assignment"])) {
       </div>
 
       <div class="p-2">
-        <input class="cursor-pointer p-2 rounded text-white font-bold bg-green-600" type="submit" value="Add User" />
+        <input class="cursor-pointer p-2 rounded text-white font-bold bg-green-600" type="submit" name="add_user" value="Add User" />
       </div>
     </form>
   </div>

@@ -1,60 +1,63 @@
 <?php
 require_once(__DIR__ . "/classes/db.php");
 
-// Controleren op fouten in de verbinding
+// Connect to the database
 try {
     $conn = Db::getConnection();
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
 
-// Als het formulier is ingediend om een nieuwe taak toe te voegen
+// Process form submission to add a new task
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["add_task_type"])) {
     $task_name = $_POST["task_name"];
     $task_description = $_POST["task_description"];
 
     try {
-        // Voeg de nieuwe taak toe aan de database
+        // Add the new task to the database
         $sql = "INSERT INTO `hub_tasks` (`task_name`, `task_description`) VALUES (:task_name, :task_description)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':task_name', $task_name);
         $stmt->bindParam(':task_description', $task_description);
         $stmt->execute();
-        echo "Nieuwe taak succesvol toegevoegd.";
+        echo "New task successfully added.";
+        // Redirect to prevent form resubmission on refresh
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 
-// Als het formulier is ingediend om een taak te verwijderen
+// Process form submission to delete a task
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_task"])) {
     $task_id = $_POST["task_id"];
 
     try {
-        // Verwijder de geselecteerde taak uit de database
+        // Delete the selected task from the database
         $sql = "DELETE FROM `hub_tasks` WHERE `id` = :task_id";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':task_id', $task_id);
         $stmt->execute();
-        echo "Taak succesvol verwijderd.";
+        echo "Task successfully deleted.";
+        // Redirect to prevent form resubmission on refresh
+        header("Location: " . $_SERVER['PHP_SELF']);
+        exit();
     } catch (PDOException $e) {
         echo "Error: " . $e->getMessage();
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Management</title>
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/nav.css">
-
-
 </head>
-
 <body>
     <?php include_once("nav.inc.php"); ?>
     <h2>Add New Task</h2>
@@ -70,13 +73,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_task"])) {
     <ul>
         <?php
         try {
-            // Haal alle taken op uit de database
+            // Fetch all tasks from the database
             $sql = "SELECT * FROM `hub_tasks`";
             $stmt = $conn->prepare($sql);
             $stmt->execute();
             $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Toon de taken en voeg een knop toe om ze te verwijderen
+            // Display the tasks and add a button to delete them
             foreach ($tasks as $task) {
                 echo "<li>" . $task["task_name"] . " - " . $task["task_description"] . " <form method='post' action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "'><input type='hidden' name='task_id' value='" . $task["id"] . "'><button type='submit' name='delete_task'>Delete</button></form></li>";
             }
@@ -86,5 +89,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_task"])) {
         ?>
     </ul>
 </body>
-
 </html>

@@ -1,14 +1,8 @@
 <?php
-// Databasegegevens
-// $servername = "localhost";
-// $username = "root";
-// $password = "root";
-// $dbname = "littlesun";
-
-include_once('classes/db.php');
+require_once(__DIR__ . "/classes/db.php");
 
 // Functie om een locatie toe te voegen
-function addLocation($name, $country/* , $conn */)
+function addLocation($name, $country)
 {
     $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
     $sql = "INSERT INTO hub_location (name, country) VALUES (:name, :country)";
@@ -16,16 +10,12 @@ function addLocation($name, $country/* , $conn */)
     $stmt->bindParam(':name', $name);
     $stmt->bindParam(':country', $country);
     return $stmt->execute();
-    // $sql = "INSERT INTO hub_location (name, country) VALUES (:name, :country)";
-    // $stmt = $conn->prepare($sql);
-    // $stmt->bindParam(':name', $name);
-    // $stmt->bindParam(':country', $country);
-    // return $stmt->execute();
 }
 
 // Functie om een locatie te bewerken
-function editLocation($id, $name, $country, $conn)
+function editLocation($id, $name, $country)
 {
+    $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
     $sql = "UPDATE hub_location SET name = :name, country = :country WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id);
@@ -35,8 +25,9 @@ function editLocation($id, $name, $country, $conn)
 }
 
 // Functie om een locatie te verwijderen
-function deleteLocation($location_id, $conn)
+function deleteLocation($location_id)
 {
+    $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
     $sql = "DELETE FROM hub_location WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $location_id);
@@ -46,9 +37,6 @@ function deleteLocation($location_id, $conn)
 try {
     // Maak verbinding met de database
     $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
-    // $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    // Stel de foutmodus in op uitzonderingen
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     // Als er een actie is om een locatie toe te voegen
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['action'] === 'add_location') {
@@ -57,8 +45,9 @@ try {
         $country = $_POST['country'];
 
         // Locatie toevoegen aan de database
-        if (addLocation($name, $country, $conn)) {
-            // echo "Locatie succesvol toegevoegd.<br>";
+        if (addLocation($name, $country)) {
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
             echo "Er is een fout opgetreden bij het toevoegen van de locatie.<br>";
         }
@@ -72,8 +61,9 @@ try {
         $country = $_POST['edit_country'];
 
         // Locatie bewerken in de database
-        if (editLocation($id, $name, $country, $conn)) {
-            // echo "Locatie succesvol bewerkt.<br>";
+        if (editLocation($id, $name, $country)) {
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
             echo "Er is een fout opgetreden bij het bewerken van de locatie.<br>";
         }
@@ -85,8 +75,9 @@ try {
         $location_id = $_POST['location_id'];
 
         // Locatie verwijderen uit de database
-        if (deleteLocation($location_id, $conn)) {
-            // echo "Locatie succesvol verwijderd.<br>";
+        if (deleteLocation($location_id)) {
+            header("Location: " . $_SERVER['PHP_SELF']);
+            exit();
         } else {
             echo "Er is een fout opgetreden bij het verwijderen van de locatie.<br>";
         }
@@ -103,7 +94,8 @@ try {
 
 // Verbinding sluiten
 $conn = null;
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="nl">
 
 <head>
@@ -173,16 +165,16 @@ $conn = null;
         </div>
     <?php endforeach; ?>
 
-    </div>
+</div>
 
-    <!-- JavaScript voor interactie -->
-    <script>
-        function editLocation(locationId) {
-            // JavaScript voor het bewerken van een locatie
-            // Voeg hier de logica toe om locaties te bewerken
-            console.log("Bewerken van locatie met ID:", locationId);
-        }
-    </script>
+<!-- JavaScript voor interactie -->
+<script>
+    function editLocation(locationId) {
+        // JavaScript voor het bewerken van een locatie
+        // Voeg hier de logica toe om locaties te bewerken
+        console.log("Bewerken van locatie met ID:", locationId);
+    }
+</script>
 </body>
 
 </html>

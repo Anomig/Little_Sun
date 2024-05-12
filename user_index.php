@@ -1,124 +1,98 @@
 <?php
 session_start();
 include_once(__DIR__ . "/classes/db.php");
-include_once("nav.inc.php");
-
-var_dump($_SESSION);
 
 $pdo = Db::getConnection();
 
+// Controleer of de gebruiker is ingelogd en haal de gebruikers-ID op
+$user_id = $_SESSION['user_id'] ?? null;
 
-
-if (!isset($status) || !$status) {
-  // Geen actieve sessie, toon standaard "Clock In"
-  $button_text = "Clock In";
+// Bepaal de tekst voor de knop op basis van de huidige status
+if (!$user_id) {
+    // Geen actieve sessie, toon standaard "Clock In"
+    $button_text = "Clock In";
 } else {
-  // Er is een actieve sessie zonder clock_out, toon "Clock Out"
-  $button_text = "Clock Out";
+    // Haal de huidige status op basis van de laatste in- en uitklokgegevens
+    $stmt = $pdo->prepare("SELECT * FROM work_times WHERE user_id = :user_id ORDER BY id DESC LIMIT 1");
+    $stmt->execute(['user_id' => $user_id]);
+    $status = $stmt->fetch();
+
+    if ($status && !$status['clock_out']) {
+        // Er is een actieve sessie zonder clock_out, toon "Clock Out"
+        $button_text = "Clock Out";
+    } else {
+        // Geen actieve sessie, toon standaard "Clock In"
+        $button_text = "Clock In";
+    }
 }
 
-
+// Verwerk het in- en uitklokken
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['toggle_clock'])) {
-  $stmt = $pdo->prepare("SELECT * FROM work_times WHERE clock_out IS NULL ORDER BY id DESC LIMIT 1");
-  $stmt->execute();
-  $current_session = $stmt->fetch();
-
-  if ($current_session) {
-    // Clock out 
-    $clock_out_time = new DateTime();
-    $clock_in_time = new DateTime($current_session['clock_in']);
-    $interval = $clock_out_time->diff($clock_in_time);
-
-    $hours = $interval->h;
-    $minutes = $interval->i;
-    $seconds = $interval->s;
-    $total_hours = sprintf("%02d:%02d:%02d", $hours, $minutes, $seconds);
-
-    $overtime = max(0, $hours + ($minutes / 60) - 8); //overtime staat nu op +8 uur
-
-    $stmt = $pdo->prepare("UPDATE work_times SET clock_out = :clock_out, total_hours = :total_hours, overtime = :overtime WHERE id = :id");
-    if (!$stmt->execute([
-      'clock_out' => $clock_out_time->format('Y-m-d H:i:s'),
-      'total_hours' => $total_hours,
-      'overtime' => $overtime,
-      'id' => $current_session['id']
-    ])) {
-      die("Error updating record: " . implode(", ", $stmt->errorInfo()));
+    if ($button_text === "Clock In") {
+        // Clock in
+        $stmt = $pdo->prepare("INSERT INTO work_times (user_id, clock_in) VALUES (:user_id, :clock_in)");
+        $stmt->execute([
+            'user_id' => $user_id,
+            'clock_in' => date('Y-m-d H:i:s')
+        ]);
+    } else {
+        // Clock out
+        $stmt = $pdo->prepare("UPDATE work_times SET clock_out = :clock_out WHERE user_id = :user_id AND clock_out IS NULL");
+        $stmt->execute([
+            'clock_out' => date('Y-m-d H:i:s'),
+            'user_id' => $user_id
+        ]);
     }
-  } else {
-    // Clock in
-    $stmt = $pdo->prepare("INSERT INTO work_times (clock_in) VALUES (:clock_in)");
-    if (!$stmt->execute([
-      'clock_in' => date('Y-m-d H:i:s')
-    ])) {
-      die("Error inserting record: " . implode(", ", $stmt->errorInfo()));
-    }
-  }
 }
 
-
-$task_stmt = $pdo->prepare("SELECT assigned_task_name, assigned_task_description FROM hub_users WHERE id = :user_id");
-$task_stmt->execute(['user_id' => $user_id]);
-$tasks = $task_stmt->fetchAll(PDO::FETCH_ASSOC);
-
-
-
-/*<div id="work_duration_message" style="display: <?php echo ($status && $button_text === 'Clock Out') ? 'block' : 'none'; ?>;">
-      <?php
-      if ($status && $button_text === 'Clock Out') {
-        echo "Je hebt gewerkt voor: " . $status['total_hours'];
-      }
-      ?>
-    </div>
-
-    WOU DIT IN HTML ZETTEN, MAAR LUKTE NIET */
+// Haal de toegewezen taken voor de huidige gebruiker op uit de user_tasks-tabel
+if ($user_id) {
+    $task_stmt = $pdo->prepare("SELECT t.task_name, t.task_description FROM hub_tasks t INNER JOIN user_tasks ut ON t.id = ut.task_id WHERE ut.user_id = :user_id");
+    $task_stmt->execute(['user_id' => $user_id]);
+    $tasks = $task_stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Little Sun</title>
-  <link rel="stylesheet" href="styles/normalize.css">
-  <link rel="stylesheet" href="styles/nav.css">
-  <link rel="stylesheet" href="styles/style.css">
-  <style>
-    body {
-      margin: 25px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/nav.css">
+    <title>little sun ☀️</title>
 </head>
 
 <body>
-  <div class="index_title">
-    <h1>Hi!</h1>
-    <div class="log_out">
-      <div>🟢</div>
-      <div><a href="logout.php">Log out</a></div>
+    <?php include_once("nav.inc.php"); ?>
+
+    <div class="index_title">
+        <h1>Hi!</h1>
+        <div class="log_out">
+            <div>🟢</div>
+            <div><a href="logout.php">Log out</a></div>
+        </div>
     </div>
-  </div>
-  <div class="log_out"><a href="time_off_user.php">Request time-off</a></div>
+    <div class="log_out"><a href="time_off_user.php">Request time-off</a></div>
 
-  <form method="post">
+    <form method="post">
+        <button name="toggle_clock"><?php echo $button_text; ?></button>
+    </form>
 
-    <button name="toggle_clock"><?php echo $button_text; ?></button>
-
-  </form>
-
-  <div>
-    <h2>Task overview:</h2>
-    <ul>
-    <?php if (!empty($tasks)): ?>
-            <?php foreach ($tasks as $task): ?>
-                <li><?php echo htmlspecialchars($task['assigned_task_name']) . ": " . htmlspecialchars($task['assigned_task_description']); ?></li>
-            <?php endforeach; ?>
-        <?php else: ?>
-            <li>No tasks assigned.</li>
-        <?php endif; ?>
-    </ul>
-  </div>
+    <div>
+        <h2>Task overview:</h2>
+        <ul>
+            <?php if (!empty($tasks)) : ?>
+                <?php foreach ($tasks as $task) : ?>
+                    <li><?php echo htmlspecialchars($task['task_name']) . ": " . htmlspecialchars($task['task_description']); ?></li>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <li>No tasks assigned.</li>
+            <?php endif; ?>
+        </ul>
+    </div>
 
 </body>
 

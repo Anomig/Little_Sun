@@ -15,6 +15,10 @@ try {
     error_log("Database error: " . $e->getMessage());
 }
 
+// Variabelen voor foutmelding en popup-melding
+$error = "";
+$popupMessage = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Formuliergegevens ophalen
     $firstname = $_POST['firstname'];
@@ -24,8 +28,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $profile_picture = $_POST['profile_picture'];
     $hub_location = $_POST['hub_location'];
 
-    // Manager toevoegen met behulp van de klasse
-    $hubManager->addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location);
+    try {
+        // Controleren of het e-mailadres al bestaat in de database
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM hub_users WHERE email = ?");
+        $stmt->execute([$email]);
+        $count = $stmt->fetchColumn();
+
+        if ($count > 0) {
+            // Het e-mailadres bestaat al, toon een foutmelding aan de gebruiker
+            $error = "This e-mail adress is already being used.";
+        } else {
+            // Het e-mailadres bestaat niet, voer de registratie uit
+            $hubManager->addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location);
+            $popupMessage = "New manager added!";
+        }
+    } catch (PDOException $e) {
+        $error = "There has been an error, please reload the page.";
+    }
 }
 ?><!DOCTYPE html>
 <html lang="en">
@@ -36,6 +55,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Little Sun</title>
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/nav.css">
+    <script>
+        // JavaScript voor de popup-melding en redirect
+        window.onload = function() {
+            <?php if (!empty($popupMessage)) : ?>
+                alert("<?php echo $popupMessage; ?>");
+                window.location.href = "admin_dashboard.php"; // Redirect naar het admin dashboard
+            <?php endif; ?>
+        };
+    </script>
 </head>
 
 <body>
@@ -47,6 +75,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <h1>Add new HubManagers:</h1>
+
+    <?php if (!empty($error)) : ?>
+        <div class="error"><?php echo $error; ?></div>
+    <?php endif; ?>
 
     <div class="bg-slate-100 p-1">
         <form action="" method="post">
