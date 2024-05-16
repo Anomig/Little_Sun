@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 12, 2024 at 06:38 PM
+-- Generation Time: May 16, 2024 at 09:56 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -96,8 +96,8 @@ CREATE TABLE `hub_tasks` (
   `task_description` text COLLATE utf8mb4_unicode_ci,
   `task_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `task_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Open',
-  `task_start_date` datetime NOT NULL,
-  `task_end_date` datetime NOT NULL,
+  `task_start_date` datetime DEFAULT NULL,
+  `task_end_date` datetime DEFAULT NULL,
   `assigned_to` int(11) DEFAULT NULL,
   `hub_location_id` int(11) DEFAULT NULL,
   `assigned_manager_id` int(11) DEFAULT NULL
@@ -108,18 +108,19 @@ CREATE TABLE `hub_tasks` (
 --
 
 INSERT INTO `hub_tasks` (`id`, `task_name`, `task_description`, `task_type`, `task_status`, `task_start_date`, `task_end_date`, `assigned_to`, `hub_location_id`, `assigned_manager_id`) VALUES
-(1, 'cleaning', 'cleaning', 'cleaning', 'Open', '2024-05-05 00:00:00', '2024-05-05 00:00:00', NULL, NULL, NULL),
-(7, 'hygiene', 'hygiene', NULL, 'Open', '2024-05-05 00:00:00', '2024-05-05 00:00:00', NULL, NULL, NULL),
+(1, 'cleaning', 'cleaning', 'cleaning', 'Open', NULL, NULL, 1, NULL, NULL),
+(7, 'hygiene', 'hygiene', NULL, 'Open', NULL, NULL, 19, NULL, NULL),
 (17, 'bloembakken ', NULL, NULL, 'Open', '2024-05-09 00:00:00', '2024-05-12 00:00:00', NULL, NULL, NULL),
 (18, 'bloembakken ', NULL, NULL, 'Open', '2024-05-09 00:00:00', '2024-05-12 00:00:00', NULL, NULL, NULL),
 (19, 'bloembakken ', NULL, NULL, 'Open', '2024-05-14 00:00:00', '2024-05-15 00:00:00', NULL, NULL, NULL),
-(20, 'Joost Klein', NULL, NULL, 'Open', '2024-05-07 00:00:00', '2024-05-08 00:00:00', NULL, NULL, NULL),
+(20, 'Joost Klein', NULL, NULL, 'Open', NULL, NULL, 31, NULL, NULL),
 (21, 'AH', NULL, NULL, 'Open', '2024-05-15 00:00:00', '2024-05-16 00:00:00', NULL, NULL, NULL),
-(22, 'AH', NULL, NULL, 'Open', '2024-05-12 00:00:00', '2024-05-13 00:00:00', NULL, NULL, NULL),
+(22, 'AH', NULL, NULL, 'Open', NULL, NULL, 37, NULL, NULL),
 (23, 'cnmdfovj', NULL, NULL, 'Open', '2024-05-08 00:00:00', '2024-05-09 00:00:00', NULL, NULL, NULL),
 (24, 'uhvuer', NULL, NULL, 'Open', '2024-05-15 00:00:00', '2024-05-16 00:00:00', NULL, NULL, NULL),
 (25, 'fvnjmef', NULL, NULL, 'Open', '2024-05-10 00:00:00', '2024-05-11 00:00:00', NULL, NULL, NULL),
-(26, ' jkn:dgs', NULL, NULL, 'Open', '2024-05-01 00:00:00', '2024-05-02 00:00:00', NULL, NULL, NULL);
+(26, ' jkn:dgs', NULL, NULL, 'Open', '2024-05-01 00:00:00', '2024-05-02 00:00:00', NULL, NULL, NULL),
+(27, 'nrknsmovlke', NULL, NULL, 'Open', NULL, NULL, 37, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -149,8 +150,7 @@ INSERT INTO `hub_users` (`id`, `firstname`, `lastname`, `email`, `password`, `pr
 (20, 'admin', 'admin', '@dmin.be', '$2y$10$XgzgAZJbaupZXxLvz61bFOiJg6DsXpUEpsdj5.mooFmi7JmA4F84K', '', NULL, NULL),
 (25, 'Hannelore', 'Van Buynderen', 'hannelorevb@hotmail.be', '$2y$10$hUw.h/ReOgoIHsrw1axhK.zzoCSoGTS1A8H7fVJlN9JLtfuZsZaLO', 'Afbeelding van WhatsApp op 2024-03-24 om 22.42.10_c7257563.jpg', NULL, NULL),
 (31, 'elliot', 'vb', 'elliot@vb.be', '$2y$10$O1UrlsulI8/El86IFdD8d.NLx66EzQI1kRrQN37NphhJ1qH1Xo3Hy', 'Afbeelding van WhatsApp op 2024-03-24 om 22.42.10_c7257563.jpg', NULL, NULL),
-(35, 'Temperance', 'Brennan', '@dmin.be', '$2y$10$AQf.XAWM5NHXOtigc8iYbeuodE65NnT.FnmTMD6bBGnanq/N.rHiq', 'Afbeelding van WhatsApp op 2024-03-24 om 23.06.04_dfde317b.jpg', NULL, NULL),
-(36, '', '', '', '$2y$10$oOC8A4KMfz00rAYq0uL5AeXHR0WMx52e1PfLdSQKTCdh9ah3US5G.', '', NULL, NULL);
+(37, 'SOFIE', 'BENTEIN', 'BENTEIN_S@HOTMAIL.cOM', '$2y$10$Ewp7hvaei7EkZQ8Q/ZoL2OTo.IOU.1MuzS/ucNPucg8OicZr8tJq6', 'Afbeelding van WhatsApp op 2024-03-24 om 23.08.10_2a8f624e.jpg', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -197,7 +197,7 @@ CREATE TABLE `work_times` (
   `clock_in` datetime NOT NULL,
   `clock_out` datetime DEFAULT NULL,
   `overtime` decimal(5,2) DEFAULT '0.00',
-  `total_hours` decimal(5,2) DEFAULT '0.00'
+  `total_hours` time DEFAULT '00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -205,7 +205,31 @@ CREATE TABLE `work_times` (
 --
 
 INSERT INTO `work_times` (`id`, `clock_in`, `clock_out`, `overtime`, `total_hours`) VALUES
-(1, '2024-05-12 18:29:03', NULL, '0.00', '0.00');
+(1, '2024-05-12 18:29:03', '2024-05-16 08:50:29', '6.35', '14:21:26'),
+(2, '2024-05-16 08:45:58', '2024-05-16 08:50:05', '0.00', '00:04:07'),
+(3, '2024-05-16 08:46:00', '2024-05-16 08:49:51', '0.00', '00:03:51'),
+(4, '2024-05-16 08:46:02', '2024-05-16 08:49:49', '0.00', '00:03:47'),
+(5, '2024-05-16 08:50:31', '2024-05-16 08:50:32', '0.00', '00:00:01'),
+(6, '2024-05-16 08:50:49', '2024-05-16 08:50:50', '0.00', '00:00:01'),
+(7, '2024-05-16 08:50:59', '2024-05-16 08:51:01', '0.00', '00:00:02'),
+(8, '2024-05-16 08:51:02', '2024-05-16 08:51:09', '0.00', '00:00:07'),
+(9, '2024-05-16 08:52:00', '2024-05-16 08:52:22', '0.00', '00:00:22'),
+(10, '2024-05-16 08:52:45', '2024-05-16 08:53:08', '0.00', '00:00:23'),
+(11, '2024-05-16 08:53:19', '2024-05-16 08:53:21', '0.00', '00:00:02'),
+(12, '2024-05-16 08:53:24', '2024-05-16 08:54:09', '0.00', '00:00:45'),
+(13, '2024-05-16 08:54:11', '2024-05-16 08:54:13', '0.00', '00:00:02'),
+(14, '2024-05-16 08:54:16', '2024-05-16 08:55:57', '0.00', '00:01:41'),
+(15, '2024-05-16 08:56:00', '2024-05-16 08:56:03', '0.00', '00:00:03'),
+(16, '2024-05-16 08:56:04', '2024-05-16 08:56:10', '0.00', '00:00:06'),
+(17, '2024-05-16 08:56:12', '2024-05-16 08:56:14', '0.00', '00:00:02'),
+(18, '2024-05-16 08:56:17', '2024-05-16 08:57:22', '0.00', '00:01:05'),
+(19, '2024-05-16 08:57:25', '2024-05-16 08:57:27', '0.00', '00:00:02'),
+(20, '2024-05-16 08:57:29', '2024-05-16 08:57:34', '0.00', '00:00:05'),
+(21, '2024-05-16 09:00:41', '2024-05-16 09:02:17', '0.00', '00:01:36'),
+(22, '2024-05-16 09:02:18', '2024-05-16 09:02:19', '0.00', '00:00:01'),
+(24, '2024-05-16 09:13:43', '2024-05-16 09:13:47', '0.00', '00:00:04'),
+(25, '2024-05-16 09:15:02', '2024-05-16 09:15:04', '0.00', '00:00:02'),
+(26, '2024-05-16 09:15:22', '2024-05-16 09:15:25', '0.00', '00:00:03');
 
 --
 -- Indexes for dumped tables
@@ -280,13 +304,13 @@ ALTER TABLE `hub_managers`
 -- AUTO_INCREMENT for table `hub_tasks`
 --
 ALTER TABLE `hub_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `hub_users`
 --
 ALTER TABLE `hub_users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT for table `time_off`
@@ -304,7 +328,7 @@ ALTER TABLE `user_tasks`
 -- AUTO_INCREMENT for table `work_times`
 --
 ALTER TABLE `work_times`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- Constraints for dumped tables

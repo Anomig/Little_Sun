@@ -12,7 +12,7 @@ $tasks = [];
 
 try {
     // Query om taken op te halen
-    $stmt = $pdo->query("SELECT id, task_name FROM hub_tasks");
+    $stmt = $pdo->query("SELECT id, task_name, task_start_date, task_end_date, assigned_to FROM hub_tasks");
     $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
     error_log("Database error: " . $e->getMessage());
@@ -29,7 +29,6 @@ try {
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/nav.css">
     <link rel="stylesheet" href="styles/style.css">
-
 </head>
 
 <body>
@@ -66,34 +65,33 @@ try {
                 <!-- Start Date and Time input field -->
                 <div class="datetime-field">
                     <label for="start_datetime_<?php echo $task['id']; ?>" class="text-slate-700">Start</label>
-                    <input type="datetime-local" name="start_datetime_<?php echo $task['id']; ?>" id="start_datetime_<?php echo $task['id']; ?>" class="border-solid border-slate-20 border-2 rounded" />
-         
+                    <input type="datetime-local" name="start_datetime_<?php echo $task['id']; ?>" id="start_datetime_<?php echo $task['id']; ?>" class="border-solid border-slate-20 border-2 rounded" value="<?php echo date('Y-m-d\TH:i', strtotime($task['task_start_date'])); ?>" />
                 </div>
                 <!-- End Date and Time input field -->
                 <div class="datetime-field">
                     <label for="end_datetime_<?php echo $task['id']; ?>" class="text-slate-700">End</label>
-                    <input type="datetime-local" name="end_datetime_<?php echo $task['id']; ?>" id="end_datetime_<?php echo $task['id']; ?>" class="border-solid border-slate-20 border-2 rounded" />
+                    <input type="datetime-local" name="end_datetime_<?php echo $task['id']; ?>" id="end_datetime_<?php echo $task['id']; ?>" class="border-solid border-slate-20 border-2 rounded" value="<?php echo date('Y-m-d\TH:i', strtotime($task['task_end_date'])); ?>" />
                 </div>
             </li>
         <?php endforeach; ?>
     </ul>
 
-</body>
-<script>
-    // JavaScript om de invoervelden dynamisch weer te geven op basis van de taakselectie
-    function toggleDateTimeFields(taskId) {
-        var selectTask = document.getElementById("task_" + taskId);
-        var startDateTimeField = document.getElementById("start_datetime_" + taskId);
-        var endDateTimeField = document.getElementById("end_datetime_" + taskId);
+    <script>
+        // JavaScript om de invoervelden dynamisch weer te geven op basis van de taakselectie
+        function toggleDateTimeFields(taskId) {
+            var selectTask = document.getElementById("task_" + taskId);
+            var startDateTimeField = document.getElementById("start_datetime_" + taskId);
+            var endDateTimeField = document.getElementById("end_datetime_" + taskId);
 
-        if (selectTask.value !== "") {
-            startDateTimeField.style.display = "block";
-            endDateTimeField.style.display = "block";
-        } else {
-            startDateTimeField.style.display = "none";
-            endDateTimeField.style.display = "none";
+            if (selectTask.value !== "") {
+                startDateTimeField.style.display = "block";
+                endDateTimeField.style.display = "block";
+            } else {
+                startDateTimeField.style.display = "none";
+                endDateTimeField.style.display = "none";
+            }
         }
-    }
-</script>
+    </script>
+</body>
 
 </html>
