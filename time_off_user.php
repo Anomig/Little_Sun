@@ -11,11 +11,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $end_date = $_POST['end_date'];
     $reason = $_POST['reason'];
     $comments = $_POST['comments'];
-
+    
     // Voer de query uit om de data toe te voegen
     $sql = "INSERT INTO time_off (user_id, start_date, end_date, reason, comments, status) VALUES (?, ?, ?, ?, ?, 'requested')";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$user_id, $start_date, $end_date, $reason, $comments]);
+    $stmt->execute([$user_id, $start_date, $end_date, $reason, $comments,]);
 
     echo "Time off requested successfully";
     // Redirect terug naar de vorige pagina of naar een specifieke pagina
