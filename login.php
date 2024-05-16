@@ -1,50 +1,63 @@
 <?php
+
+
+echo password_hash('1234', PASSWORD_DEFAULT);
+
+
+
 session_start();
+include_once(__DIR__ . "/classes/Data.php");
 
-include_once(__DIR__ . "/classes/db.php");
-include_once(__DIR__ . "/classes/HubManager.php");
 
-function loginAsManager($username, $password, $conn)
-{
-  $sql = "SELECT * FROM hub_managers WHERE email = :username";
-  $stmt = $conn->prepare($sql);
-  $stmt->bindParam(':username', $username);
-  $stmt->execute();
-  $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-  if ($user && password_verify($password, $user['password'])) {
-    $_SESSION['admin_logged_in'] = true;
-    session_regenerate_id(true); // Regenerate session ID to prevent session fixation
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function logoutAsManager()
-{
-  session_unset();
-  session_destroy();
-}
-
-$pdo = Db::getConnection();
-$hubManager = new HubManager($pdo);
-
+// Controleer of het formulier is ingediend
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if ($_POST['action'] === 'login') {
-    $username = $_POST['email']; // Changed to match the form field name
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if (loginAsManager($username, $password, $pdo)) {
-      header("Location: manager_index.php"); // Redirect to manager's index page
-      exit();
+    // Controleer of de e-mail en het wachtwoord zijn ingevuld
+    if (!empty($email) && !empty($password)) {
+        // Maak gebruik van de databaseverbinding via de Data klasse
+        $db = Data::getConnection();
+
+        // Zoek de gebruiker op in de database
+        $sql = "SELECT * FROM employees WHERE email = :email";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Controleer of de gebruiker is gevonden
+        if ($user) {
+            // Verifieer het wachtwoord
+            if (password_verify($password, $user['password'])) {
+                // Start een sessie en sla de gegevens op
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['role'] = $user['function'];
+
+                // Stuur de gebruiker naar de juiste indexpagina
+                if ($user['function'] == 'admin') {
+                    header("Location: admin_dashboard.php");
+                } elseif ($user['function'] == 'manager') {
+                    header("Location: manager_index.php");
+                } else {
+                    header("Location: user_index.php");
+                }
+                exit;
+            } else {
+                $error_message = "Ongeldig wachtwoord.";
+            }
+        } else {
+            $error_message = "Geen gebruiker gevonden met dit e-mailadres.";
+        }
     } else {
-      $error_message = "Invalid email or password.";
+        $error_message = "Vul alstublieft zowel een e-mailadres als een wachtwoord in.";
     }
-  }
 }
+
 ?><!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 
 <head>
   <meta charset="UTF-8">
@@ -61,23 +74,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       <form action="" method="post">
         <h2 class="form__title">Log in ☀️</h2>
 
-        <?php if (isset($error_message)) : ?> <!-- Changed to match the PHP variable -->
+        <?php if (isset($error_message)) : ?> 
           <div class="form__error">
-            <p><?php echo htmlspecialchars($error_message); ?></p> <!-- Display error message -->
+            <p><?php echo htmlspecialchars($error_message); ?></p> <!-- error message laten zien -->
           </div>
         <?php endif; ?>
 
         <div class="form__field">
           <label for="email">Email</label>
-          <input type="text" name="email" required> <!-- Added required attribute for better UX -->
+          <input type="text" name="email" required> 
         </div>
         <div class="form__field">
           <label for="password">Password</label>
-          <input type="password" name="password" required> <!-- Added required attribute for better UX -->
+          <input type="password" name="password" required> 
         </div>
 
         <div class="form__field">
-          <input type="hidden" name="action" value="login"> <!-- Added hidden input for action -->
+          <input type="hidden" name="action" value="login"> 
           <input type="submit" value="Log in" class="btn btn--primary">
         </div>
       </form>

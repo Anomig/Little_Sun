@@ -1,10 +1,20 @@
 <?php
 
+
+session_start();
+if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
+    header("Location: login.php");
+    exit;
+}
+
+
+
 include_once(__DIR__ . "/classes/db.php");
 include_once(__DIR__ . "/classes/HubUser.php");
 
 $pdo = Db::getConnection();
 $hubUser = new HubUser($pdo);
+
 
 // $locations = []; // Array om locaties op te slaan
 
