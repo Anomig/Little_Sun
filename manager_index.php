@@ -20,88 +20,73 @@ $hubUser = new HubUser($pdo);
 $error = "";
 $popupMessage = "";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Formuliergegevens ophalen
-    $firstname = $_POST['firstname'];
-    $lastname = $_POST['lastname'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $profile_picture = $_POST['profile_picture'];
-    // $hub_location = $_POST['hub_location'];
+// if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//   // Formuliergegevens ophalen
+//   $firstname = $_POST['firstname'];
+//   $lastname = $_POST['lastname'];
+//   $email = $_POST['email'];
+//   $password = $_POST['password'];
+//   $profile_picture = $_POST['profile_picture'];
+//   // $hub_location = $_POST['hub_location'];
 
-    try {
-        // Controleren of het e-mailadres al bestaat in de database
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM hub_users WHERE email = ?");
-        $stmt->execute([$email]);
-        $count = $stmt->fetchColumn();
+//   try {
+//     // Controleren of het e-mailadres al bestaat in de database
+//     $stmt = $pdo->prepare("SELECT COUNT(*) FROM hub_users WHERE email = ?");
+//     $stmt->execute([$email]);
+//     $count = $stmt->fetchColumn();
 
-        if ($count > 0) {
-            // Het e-mailadres bestaat al, toon een foutmelding aan de gebruiker
-            $error = "This e-mail adress is already being used.";
-        } else {
-            // Het e-mailadres bestaat niet, voer de registratie uit
-            $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
-            $popupMessage = "New user added!";
-        }
-    } catch (PDOException $e) {
-        $error = "There has been an error, please reload the page.";
-    }
-}
-// Haal alle gebruikers op om weer te geven
+//     if ($count > 0) {
+//       // Het e-mailadres bestaat al, toon een foutmelding aan de gebruiker
+//       $error = "This e-mail adress is already being used.";
+//     } else {
+//       // Het e-mailadres bestaat niet, voer de registratie uit
+//       $hubUser->addUser($firstname, $lastname, $email, $password, $profile_picture);
+//       $popupMessage = "New user added!";
+//     }
+//   } catch (PDOException $e) {
+//     $error = "There has been an error, please reload the page.";
+//   }
+// }
 $workers = $hubUser->getUsers();
+// Variabeel om taken op te slaan
+$tasks = [];
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_assignment"])) {
-    $task_id = $_POST["task_id"];
-    $user_id = $_POST["assign_user"];
-
-    try {
-        $pdo->beginTransaction();
-
-        // Update the task assignment
-        $sqlTask = "UPDATE `hub_tasks` SET `assigned_to` = :user_id WHERE `id` = :task_id";
-        $stmtTask = $pdo->prepare($sqlTask);
-        $stmtTask->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmtTask->bindParam(':task_id', $task_id, PDO::PARAM_INT);
-        $stmtTask->execute();
-
-        // Update the user's assigned task name and description
-        $sqlUser = "UPDATE hub_users u
-                    JOIN hub_tasks t ON t.id = :task_id
-                    SET u.assigned_task_name = t.task_name,
-                        u.assigned_task_description = t.task_description
-                    WHERE u.id = :user_id";
-        $stmtUser = $pdo->prepare($sqlUser);
-        $stmtUser->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-        $stmtUser->bindParam(':task_id', $task_id, PDO::PARAM_INT);
-        $stmtUser->execute();
-
-        $pdo->commit();
-
-        echo "Task successfully assigned to the user and user table updated.";
-    } catch (PDOException $e) {
-        $pdo->rollBack();
-        echo "Error: " . $e->getMessage();
-    }
+try {
+  // Query om taken op te halen
+  $stmt = $pdo->query("SELECT id, task_name FROM hub_tasks");
+  $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  error_log("Database error: " . $e->getMessage());
 }
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Sun ☀️</title>
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/nav.css">
-    <link rel="stylesheet" href="styles/style.css">
-    
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Little Sun ☀️</title>
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/nav.css">
+  <link rel="stylesheet" href="styles/style.css">
+
 </head>
 
 <body>
   <?php include_once("nav.inc.php"); ?>
 
+  <!-- 
+  <div class="index_title">
+    <h1>Add new users! </h1> -->
+
 
   <div class="index_title">
-    <h1>Add new users! </h1>
+    <div>
+      <a href="manager_add_user.php">Add user</a>
+      <a href="manager_workers.php">Workers in hub</a>
+      <a href="manager_tasks.php">Tasks</a>
+    </div>
 
     <div class="log_out">
 
@@ -114,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_assignment"])) {
   </div>
 
 
-  <div class="bg-slate-100 p-1">
+  <!-- <div class="bg-slate-100 p-1">
     <form action="" method="post">
       <div class="p-2">
         <label for="firstname" class="text-slate-700">Firstname</label>
@@ -145,65 +130,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["save_assignment"])) {
         <input class="cursor-pointer p-2 rounded text-white font-bold bg-green-600" type="submit" name="add_user" value="Add User" />
       </div>
     </form>
-  </div>
-
-  <div class="flex flex-row flex-wrap gap-1 p-2">
-
-    <h1>Workers in Hub</h1>
-
-    <!-- oplijsting user informatie -->
-    <div class="workers">
-
-      <ul>
-        <?php foreach ($workers as $worker) : ?>
-          <li>
-            <div><img style="width: 50px;" src="https://thispersondoesnotexist.com" alt="Profile Picture"></div>
-            <div><?php echo $worker['firstname'] . ' ' . $worker['lastname']; ?></div>
-            <!-- <div><?php echo $worker['task']; ?></div> -->
-
-          </li>
-        <?php endforeach; ?>
-      </ul>
-    </div>
-
-    <h2>All Tasks</h2>
-<ul>
-  <?php
-  // Haal alle taken op
-  $tasks = $hubUser->getTasks();
-
-  // Haal alle gebruikers op
-  $allUsers = $hubUser->getUsers();
-
-  
-  foreach ($tasks as $task) {
-    echo "<li>" . $task['task_name'] . " - " . $task['task_description'] . " - Assigned to: ";
-    echo "<form id='assign_form_" . $task['id'] . "' method='post'>";
-    echo "<input type='hidden' name='task_id' value='" . $task['id'] . "'>";
-    echo "<select name='assign_user'>";
-    echo "<option value=''>Not Assigned</option>";
-    foreach ($allUsers as $user) {
-      $selected = ($task['assigned_to'] == $user['id']) ? "selected" : "";
-      echo "<option value='" . $user['id'] . "' " . $selected . ">" . $user['firstname'] . " " . $user['lastname'] . "</option>";
-    }
-    echo "</select>";
-    echo "<input type='hidden' name='save_assignment' value='true'>";
-    echo "<button type='submit'>Save</button>";  // Changed type here
-    echo "</form></li>";
-  }
+  </div> -->
 
 
-  ?>
-</ul>
 
-<script>
-  function saveAssignment(taskId) {
-    var form = document.getElementById('assign_form_' + taskId);
-    form.submit();
-  }
-</script>
-
-
+    
 
 </body>
 <script>
