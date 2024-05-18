@@ -1,3 +1,4 @@
+//NIET NODIG
 <?php
 session_start();
 

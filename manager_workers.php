@@ -1,8 +1,8 @@
 <?php
-include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/data.php");
 include_once(__DIR__ . "/classes/HubUser.php");
 
-$pdo = Db::getConnection();
+$pdo = Data::getConnection();
 $hubUser = new HubUser($pdo);
 $workers = $hubUser->getUsers();
 
