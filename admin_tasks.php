@@ -1,9 +1,9 @@
 <?php
-require_once(__DIR__ . "/classes/db.php");
+require_once(__DIR__ . "/classes/data.php");
 
 // Connect to the database
 try {
-    $conn = Db::getConnection();
+    $conn = Data::getConnection();
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }

@@ -71,6 +71,25 @@ INSERT INTO `hub_location` (`id`, `name`, `country`) VALUES
 (1, 'Little sun', 'Zambia'),
 (2, 'School', 'Zambia');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `hub_tasks`
+--
+
+CREATE TABLE `hub_tasks` (
+  `id` int(11) NOT NULL,
+  `task_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `task_description` text COLLATE utf8mb4_unicode_ci,
+  `task_type` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `task_status` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Open',
+  `task_start_date` datetime DEFAULT NULL,
+  `task_end_date` datetime DEFAULT NULL,
+  `assigned_to` int(11) DEFAULT NULL,
+  `hub_location_id` int(11) DEFAULT NULL,
+  `assigned_manager_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indexes for dumped tables
 --
@@ -105,6 +124,12 @@ ALTER TABLE `hub_location`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `hub_location`
+--
+ALTER TABLE `hub_location`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -113,6 +138,10 @@ ALTER TABLE `hub_location`
 --
 ALTER TABLE `employees`
   ADD CONSTRAINT `fk_location_id` FOREIGN KEY (`location_id`) REFERENCES `hub_location` (`id`) ON UPDATE CASCADE;
+COMMIT;
+
+ALTER TABLE `employees`
+  ADD CONSTRAINT `fk_task_id` FOREIGN KEY (`task_id`) REFERENCES `hub_tasks` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
