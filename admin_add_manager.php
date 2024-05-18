@@ -1,8 +1,15 @@
 <?php
-include_once(__DIR__ . "/classes/db.php");
+//error testing
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
+// error_reporting(E_ALL);
+
+//include_once(__DIR__ . "/classes/db.php"); oude databank
+//nieuwe databank
+include_once(__DIR__ . "/classes/data.php");
 include_once(__DIR__ . "/classes/HubManager.php");
 
-$pdo = Db::getConnection();
+$pdo = Data::getConnection();
 $hubManager = new HubManager($pdo);
 
 $locations = []; // Array om locaties op te slaan
@@ -25,12 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $lastname = $_POST['lastname'];
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $profile_picture = $_POST['profile_picture'];
+    // $profile_picture = $_POST['profile_picture'];
     $hub_location = $_POST['hub_location'];
-
+    // echo "selected hub location:" . $hub_location;
     try {
         // Controleren of het e-mailadres al bestaat in de database
-        $stmt = $pdo->prepare("SELECT COUNT(*) FROM hub_users WHERE email = ?");
+        $stmt = $pdo->prepare("SELECT COUNT(*) FROM employees WHERE email = ?");
         $stmt->execute([$email]);
         $count = $stmt->fetchColumn();
 
@@ -39,8 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "This e-mail adress is already being used.";
         } else {
             // Het e-mailadres bestaat niet, voer de registratie uit
-            $hubManager->addManager($firstname, $lastname, $email, $password, $profile_picture, $hub_location);
-            $popupMessage = "New manager added!";
+            $hubManager->addManager($firstname, $lastname, $email, $password,"manager",$hub_location,$task_id);
+            // $popupMessage = "New manager added!";
         }
     } catch (PDOException $e) {
         $error = "There has been an error, please reload the page.";
@@ -102,10 +109,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" name="password" id="password" class="border-solid border-slate-20 border-2 rounded" />
             </div>
 
-            <div class="p-5">
+            <!-- <div class="p-5">
                 <label for="profile-picture" class="text-slate-700">Profile picture</label>
                 <input type="file" name="profile_picture" id="profile_picture" class="border-solid border-slate-20 border-2 rounded" />
-            </div>
+            </div> -->
 
             <div class="p-6">
                 <label for="hub_location" class="text-slate-700">Hub location</label>
