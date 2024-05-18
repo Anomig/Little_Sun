@@ -1,0 +1,87 @@
+.body {
+    margin: 5%;
+}
+
+/* Container voor de titel en het formulier */
+.add-hub-managers-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Stijlen voor de Add Hub Managers div */
+.add-hub-managers {
+    width: 100%;  
+    max-width: 500px;  
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 16px;
+}
+
+/* Marges voor de titel */
+.add-hub-managers-container h1 {
+    margin-bottom: 20px;
+}
+
+/* Marges voor de formuliervelden */
+.add-hub-managers form div {
+    margin-bottom: 10px;
+}
+
+/* Consistente uitlijning voor formuliervelden */
+.add-hub-managers form .field-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.add-hub-managers form label {
+    margin-bottom: 5px;
+}
+
+.add-hub-managers form input,
+.add-hub-managers form select {
+    width: 100%;  /* Zorg ervoor dat de invulvakken de volledige breedte van de container nemen */
+    max-width: 270px;  /* Maximale breedte voor betere leesbaarheid */
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+/* Stijlen voor de button */
+.add-hub-managers button {
+    background-color: #ffdd02;
+    border: none;
+    color: black;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 20px; 
+    justify-content: center;
+    border-radius: 6px; 
+    
+}
+
+.add-hub-managers button:hover {
+    background-color: #e6b800; 
+    border-color: black; /*werkt nog niet*/
+    transform: scale(1.1);  
+}
+
+/* Flex container voor twee kolommen */
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;  /* Ruimte tussen de kolommen */
+}
+
+.form-container .add-hub-managers {
+    flex: 1;  /* Maak beide kolommen gelijk in breedte */
+    
+   
+}
