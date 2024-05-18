@@ -46,8 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error = "This e-mail adress is already being used.";
         } else {
             // Het e-mailadres bestaat niet, voer de registratie uit
-            $hubManager->addManager($firstname, $lastname, $email, $password,"manager",$hub_location,$task_id);
+            $hubManager->addManager($firstname, $lastname, $email, $password,"manager",$hub_location/* ,$task_id */);
             // $popupMessage = "New manager added!";
+            header('location: admin_dashboard.php');
         }
     } catch (PDOException $e) {
         $error = "There has been an error, please reload the page.";

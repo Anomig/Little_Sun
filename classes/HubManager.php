@@ -15,14 +15,14 @@ class HubManager
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addManager($firstname, $lastname, $email, $password, $function, $hub_location, $hub_tasks)
+    public function addManager($firstname, $lastname, $email, $password, $function, $hub_location/* , $hub_tasks */)
     {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO employees (firstname, lastname, email, password, function, location_id, task_id) VALUES (?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO employees (firstname, lastname, email, password, function, location_id/* , task_id */) VALUES (?,?,?,?,?,?/* ,? */)";
         // var_dump($hub_location);
         $stmt = $this->pdo->prepare($sql);
-            $stmt->execute([$firstname, $lastname, $email, $hashed_password, 'manager', $hub_location, $hub_tasks]);
+            $stmt->execute([$firstname, $lastname, $email, $hashed_password, 'manager', $hub_location/* , $hub_tasks *//* , NULL */]);
     }
 
     public function resetPassword($email, $new_password)
