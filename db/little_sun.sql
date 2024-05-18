@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 18, 2024 at 12:35 PM
+-- Generation Time: May 18, 2024 at 03:58 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -49,7 +49,9 @@ INSERT INTO `employees` (`id`, `firstname`, `lastname`, `email`, `password`, `fu
 (6, 'stu', 'dent', 'stu@dent.com', '$2y$10$uedRWdcFLF2o1lCfWV0glOGARaruDkwUSeLnkN6lcnXf3LJPiDiny', 'manager', 1, NULL),
 (7, 'Naomi', 'Goyvaerts', 'na@goy.com', '$2y$10$NVYXwDRYDdSiQauACxovTu7RPLK3J8.Gl5pclrCoGh./sVPwrbHHi', 'manager', 1, NULL),
 (8, 'me', 'ma', 'me@ma.com', '$2y$10$Qw6hw4Ys4AG5ZcpVXxIpKuVxNMM2AkCcRY0ibI1/i8yclfvxFZQve', 'manager', 1, NULL),
-(9, 'Hannelore', 'VB', 'h@vb.com', '$2y$10$h49W2zsUek5gQylWyGIRfO0Oen32YEEh4E/1dCWU4WmBfIIYccGIi', 'manager', 2, NULL);
+(9, 'Hannelore', 'VB', 'h@vb.com', '$2y$10$h49W2zsUek5gQylWyGIRfO0Oen32YEEh4E/1dCWU4WmBfIIYccGIi', 'manager', 2, NULL),
+(10, 'amy', 'amy', '@my.com', '$2y$10$bxj3jTav3qQQXx1KdOweVugg7rv7nnPd.CtcW4My7q/Syd5oNCSkS', 'user', 2, NULL),
+(11, 'na', 'omi', '@omi.com', '$2y$10$Ni9UjgXpLwUeIAfLlVF4SOH7AlHfjAzl83S6wg/U4qUtyBeBov.mG', 'user', 3, NULL);
 
 -- --------------------------------------------------------
 
@@ -99,6 +101,43 @@ INSERT INTO `hub_tasks` (`id`, `task_name`, `task_description`, `task_type`, `ta
 (1, 'Office Duty', 'Be in the office', NULL, 'Open', NULL, NULL, NULL, NULL, NULL),
 (2, 'cleaning', 'sweep, sweep, sweep', NULL, 'Open', NULL, NULL, NULL, NULL, NULL);
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `time_off`
+--
+
+CREATE TABLE `time_off` (
+  `id` int(11) NOT NULL,
+  `start_date` varchar(300) NOT NULL,
+  `end_date` varchar(300) NOT NULL,
+  `reason` varchar(300) NOT NULL,
+  `comments` varchar(300) NOT NULL,
+  `status` varchar(300) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `work_times`
+--
+
+CREATE TABLE `work_times` (
+  `id` int(11) NOT NULL,
+  `clock_in` datetime NOT NULL,
+  `clock_out` datetime DEFAULT NULL,
+  `overtime` decimal(5,2) DEFAULT '0.00',
+  `total_hours` time DEFAULT '00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `work_times`
+--
+
+INSERT INTO `work_times` (`id`, `clock_in`, `clock_out`, `overtime`, `total_hours`) VALUES
+(30, '2024-05-18 15:49:13', '2024-05-18 15:49:18', '0.00', '00:00:05'),
+(31, '2024-05-18 15:52:29', '2024-05-18 15:52:31', '0.00', '00:00:02');
+
 --
 -- Indexes for dumped tables
 --
@@ -123,6 +162,18 @@ ALTER TABLE `hub_tasks`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `time_off`
+--
+ALTER TABLE `time_off`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `work_times`
+--
+ALTER TABLE `work_times`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -130,7 +181,7 @@ ALTER TABLE `hub_tasks`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `hub_location`
@@ -143,6 +194,18 @@ ALTER TABLE `hub_location`
 --
 ALTER TABLE `hub_tasks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `time_off`
+--
+ALTER TABLE `time_off`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `work_times`
+--
+ALTER TABLE `work_times`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- Constraints for dumped tables

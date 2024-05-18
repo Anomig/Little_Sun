@@ -1,8 +1,8 @@
 <?php
 // Verbinding maken met de database
 var_dump($_POST);
-include_once(__DIR__ . "/classes/db.php");
-$pdo = Db::getConnection();
+include_once(__DIR__ . "/classes/data.php");
+$pdo = Data::getConnection();
 
 // Controleren of het verzoek POST is
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

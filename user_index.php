@@ -1,8 +1,8 @@
 <?php
 session_start();
-include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/data.php");
 
-$pdo = Db::getConnection();
+$pdo = Data::getConnection();
 
 // Functie om de huidige sessiestatus te controleren
 function getCurrentSession($pdo) {

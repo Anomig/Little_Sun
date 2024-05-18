@@ -1,9 +1,9 @@
 <?php
 session_start();
 
-include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/data.php");
 
-$pdo = Db::getConnection();
+$pdo = Data::getConnection();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_SESSION['user_id']; // Dit veronderstelt dat de gebruiker is ingelogd en een sessie heeft.
