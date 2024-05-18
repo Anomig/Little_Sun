@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Gegenereerd op: 05 mei 2024 om 19:55
--- Serverversie: 5.7.39
--- PHP-versie: 8.2.0
+-- Host: localhost:3306
+-- Generation Time: May 18, 2024 at 04:32 PM
+-- Server version: 5.7.24
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `littlesun`
+-- Database: `little_sun`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `time_off`
+-- Table structure for table `time_off`
 --
 
 CREATE TABLE `time_off` (
@@ -37,21 +37,21 @@ CREATE TABLE `time_off` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Indexen voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indexen voor tabel `time_off`
+-- Indexes for table `time_off`
 --
 ALTER TABLE `time_off`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT voor een tabel `time_off`
+-- AUTO_INCREMENT for table `time_off`
 --
 ALTER TABLE `time_off`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

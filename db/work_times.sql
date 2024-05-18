@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.2
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Gegenereerd op: 07 mei 2024 om 12:17
--- Serverversie: 5.7.39
--- PHP-versie: 8.2.0
+-- Host: localhost:3306
+-- Generation Time: May 18, 2024 at 04:32 PM
+-- Server version: 5.7.24
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `littlesun`
+-- Database: `little_sun`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `work_times`
+-- Table structure for table `work_times`
 --
 
 CREATE TABLE `work_times` (
@@ -32,28 +32,36 @@ CREATE TABLE `work_times` (
   `clock_in` datetime NOT NULL,
   `clock_out` datetime DEFAULT NULL,
   `overtime` decimal(5,2) DEFAULT '0.00',
-  `total_hours` decimal(5,2) DEFAULT '0.00'
+  `total_hours` time DEFAULT '00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Indexen voor geëxporteerde tabellen
+-- Dumping data for table `work_times`
+--
+
+INSERT INTO `work_times` (`id`, `clock_in`, `clock_out`, `overtime`, `total_hours`) VALUES
+(30, '2024-05-18 15:49:13', '2024-05-18 15:49:18', '0.00', '00:00:05'),
+(31, '2024-05-18 15:52:29', '2024-05-18 15:52:31', '0.00', '00:00:02');
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Indexen voor tabel `work_times`
+-- Indexes for table `work_times`
 --
 ALTER TABLE `work_times`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT voor een tabel `work_times`
+-- AUTO_INCREMENT for table `work_times`
 --
 ALTER TABLE `work_times`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
