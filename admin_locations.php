@@ -1,10 +1,10 @@
 <?php
-require_once(__DIR__ . "/classes/db.php");
+require_once(__DIR__ . "/classes/data.php");
 
 // Functie om een locatie toe te voegen
 function addLocation($name, $country)
 {
-    $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
+    $conn = Data::getConnection(); // Databaseverbinding ophalen van de Db klasse
     $sql = "INSERT INTO hub_location (name, country) VALUES (:name, :country)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':name', $name);
@@ -15,7 +15,7 @@ function addLocation($name, $country)
 // Functie om een locatie te bewerken
 function editLocation($id, $name, $country)
 {
-    $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
+    $conn = Data::getConnection(); // Databaseverbinding ophalen van de Db klasse
     $sql = "UPDATE hub_location SET name = :name, country = :country WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id);
@@ -27,7 +27,7 @@ function editLocation($id, $name, $country)
 // Functie om een locatie te verwijderen
 function deleteLocation($location_id)
 {
-    $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
+    $conn = Data::getConnection(); // Databaseverbinding ophalen van de Db klasse
     $sql = "DELETE FROM hub_location WHERE id = :id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $location_id);
@@ -36,7 +36,7 @@ function deleteLocation($location_id)
 
 try {
     // Maak verbinding met de database
-    $conn = Db::getConnection(); // Databaseverbinding ophalen van de Db klasse
+    $conn = Data::getConnection(); // Databaseverbinding ophalen van de Db klasse
 
     // Als er een actie is om een locatie toe te voegen
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['action'] === 'add_location') {
