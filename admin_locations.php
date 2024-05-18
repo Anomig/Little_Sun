@@ -108,7 +108,7 @@ $conn = null;
 </head>
 
 <body>
-<?php include_once("nav.inc.php"); ?>
+<?php include_once("admin.nav.inc.php"); ?>
 <div class="content">
     <div class="location">
         <h3>Nieuwe locatie toevoegen</h3>

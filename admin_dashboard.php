@@ -20,15 +20,11 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 </head>
 
 <body>
-    <?php include_once("nav.inc.php"); ?>
+    <?php include_once("admin.nav.inc.php"); ?>
     <a href="admin_add_manager.php">Add manager</a>
     <a href="admin_tasks.php">Tasks</a>
     <a href="admin_locations.php">Locations</a>
 
-    <div class="log_out">
-        <div>🔴</div>
-        <a href="logout.php">Log out</a>
-    </div>
 </body>
 
 </html>

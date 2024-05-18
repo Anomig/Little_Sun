@@ -74,12 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php include_once("nav.inc.php"); ?>
-
-    <div class="log_out">
-        <div>🔴</div>
-        <a href="logout.php">Log out</a>
-    </div>
+    <?php include_once("admin.nav.inc.php"); ?>
 
     <h1>Add new HubManagers:</h1>
 

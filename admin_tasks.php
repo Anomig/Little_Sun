@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["delete_task"])) {
     <link rel="stylesheet" href="styles/nav.css">
 </head>
 <body>
-    <?php include_once("nav.inc.php"); ?>
+    <?php include_once("admin.nav.inc.php"); ?>
     <h2>Add New Task</h2>
     <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
         <label for="task_name">Task Name:</label>

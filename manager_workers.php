@@ -9,7 +9,8 @@ $workers = $hubUser->getUsers();
 $error = "";
 $popupMessage = "";
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -23,23 +24,16 @@ $popupMessage = "";
 </head>
 
 <body>
-  <?php include_once("nav.inc.php"); ?>
+  <?php include_once("manager.nav.inc.php"); ?>
 
   <div class="index_title">
-  <h1>Workers in Hub</h1>
-    <div class="log_out">
-
-      <div>🔵</div>
-      <div>
-        <a href="logout.php">Log out</a>
-      </div>
-    </div>
+    <h1>Workers in Hub</h1>
 
   </div>
 
   <div class="flex flex-row flex-wrap gap-1 p-2">
 
-    
+
 
 
     <!-- oplijsting user informatie -->

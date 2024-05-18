@@ -1,38 +1,96 @@
+<?php
+
+session_start();
+include_once(__DIR__ . "/classes/Data.php");
 
 
-//NIET NODIG
+// Controleer of het formulier is ingediend
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $email = $_POST['email'];
+    $password = $_POST['password'];
 
+    // Controleer of de e-mail en het wachtwoord zijn ingevuld
+    if (!empty($email) && !empty($password)) {
+        // Maak gebruik van de databaseverbinding via de Data klasse
+        $db = Data::getConnection();
 
-<!DOCTYPE html>
-<html>
+        // Zoek de gebruiker op in de database
+        $sql = "SELECT * FROM employees WHERE email = :email";
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        // Controleer of de gebruiker is gevonden
+        if ($user) {
+            // Verifieer het wachtwoord
+            if (password_verify($password, $user['password'])) {
+                // Start een sessie en sla de gegevens op
+                $_SESSION['loggedin'] = true;
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['role'] = $user['function'];
+
+                // Stuur de gebruiker naar de juiste indexpagina
+                if ($user['function'] == 'admin') {
+                    header("Location: admin_dashboard.php");
+                } elseif ($user['function'] == 'manager') {
+                    header("Location: manager_index.php");
+                } else {
+                    header("Location: user_index.php");
+                }
+                exit;
+            } else {
+                $error_message = "Ongeldig wachtwoord.";
+            }
+        } else {
+            $error_message = "Geen gebruiker gevonden met dit e-mailadres.";
+        }
+    } else {
+        $error_message = "Vul alstublieft zowel een e-mailadres als een wachtwoord in.";
+    }
+}
+
+?><!DOCTYPE html>
+<html lang="nl">
 
 <head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Little Sun ☀️</title>
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/nav.css">
-    
+  <meta charset="UTF-8">
+  <title>Little Sun</title>
+  <link rel="stylesheet" href="styles/login.css">
 </head>
 
 <body>
-<?php include_once("nav.inc.php"); ?>
-    <h1>Welcome to Little Sun☀️</h1>
 
-    <p>Choose your role:</p>
+  <div class="logo"><img src="images/little_sun_logo.png" alt=""></div>
 
-    <!-- Buttons for each role -->
-    <form method="post" action="admin_login.php"> <!--admin_login.php is the admin login page -->
-        <input type="submit" value="Admin Login 🔴">
-    </form>
+  <div class="loginContainer">
+    <div class="formContainer form--login">
+      <form action="" method="post">
+        <h2 class="form__title">Log in ☀️</h2>
 
-    <form method="post" action="manager_login.php"> <!--manager_login.php is the manager login page -->
-        <input type="submit" value="Manager Login 🔵">
-    </form>
+        <?php if (isset($error_message)) : ?> 
+          <div class="form__error">
+            <p><?php echo htmlspecialchars($error_message); ?></p> <!-- error message laten zien -->
+          </div>
+        <?php endif; ?>
 
-    <form method="post" action="user_login.php"> <!--user_login.php is the user login page -->
-        <input type="submit" value="User Login 🟢">
-    </form>
+        <div class="form__field">
+          <label for="email">Email</label>
+          <input type="text" name="email" required> 
+        </div>
+        <div class="form__field">
+          <label for="password">Password</label>
+          <input type="password" name="password" required> 
+        </div>
+
+        <div class="form__field">
+          <input type="hidden" name="action" value="login"> 
+          <input type="submit" value="Log in" class="btn btn--primary">
+        </div>
+      </form>
+    </div>
+  </div>
 </body>
 
 </html>

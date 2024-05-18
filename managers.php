@@ -57,7 +57,7 @@ foreach ($managers as $manager) {
 </head>
 
 <body>
-    <?php include_once("nav.inc.php"); ?>
+    <?php include_once("manager.nav.inc.php"); ?>
     <h2>Managers</h2>
     <div class="managers">
         <?php

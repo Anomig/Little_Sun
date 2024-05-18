@@ -60,20 +60,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-  <?php include_once("nav.inc.php"); ?>
+  <?php include_once("manager.nav.inc.php"); ?>
 
 
   <div class="index_title">
     <h1>Add new users! </h1>
-
-    <div class="log_out">
-
-      <div>🔵</div>
-      <div>
-        <a href="logout.php">Log out</a>
-      </div>
-    </div>
-
   </div>
 
 

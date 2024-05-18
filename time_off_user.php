@@ -49,22 +49,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php include_once("nav.inc.php"); ?>
+    <?php include_once("user.nav.inc.php"); ?>
 
-
-    <div class="index_title">
-        <h1>Hi!</h1>
-
-        <div class="log_out">
-
-            <div>🟢</div>
-            <div>
-                <a href="logout.php">Log out</a>
-            </div>
-
-        </div>
-
-    </div>
 
 
     <form action="user_index.php" method="post">
