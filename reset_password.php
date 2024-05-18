@@ -1,8 +1,8 @@
 <?php
-require_once(__DIR__ . "/classes/db.php");
+require_once(__DIR__ . "/classes/data.php");
 require_once(__DIR__ . "/classes/HubManager.php");
 
-$pdo = Db::getConnection();
+$pdo = Data::getConnection();
 $hubManager = new HubManager($pdo);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
