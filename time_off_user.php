@@ -6,21 +6,37 @@ include_once(__DIR__ . "/classes/data.php");
 $pdo = Data::getConnection();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_id = $_SESSION['user_id']; // Dit veronderstelt dat de gebruiker is ingelogd en een sessie heeft.
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
-    $reason = $_POST['reason'];
-    $comments = $_POST['comments'];
-    
-    // Voer de query uit om de data toe te voegen
-    $sql = "INSERT INTO time_off (user_id, start_date, end_date, reason, comments, status) VALUES (?, ?, ?, ?, ?, 'requested')";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([$user_id, $start_date, $end_date, $reason, $comments,]);
+    // Zorg ervoor dat de gebruiker is ingelogd en een sessie heeft
+    if (isset($_SESSION['user_id'])) {
+        $employee_id = $_SESSION['user_id']; 
+        $start_date = $_POST['start_date'];
+        $end_date = $_POST['end_date'];
+        $reason = $_POST['reason'];
+        $comments = $_POST['comments'];
+        $is_sick = $_POST['is_sick'];
 
-    echo "Time off requested successfully";
-    // Redirect terug naar de vorige pagina of naar een specifieke pagina
-    header('Location: user_index.php');
-    exit;
+        // Controleer of de reden "sickness" is
+        $is_sick = ($reason === 'sickness') ? true : false;
+
+        try {
+            // Bereid de SQL query voor om de time-off aanvraag toe te voegen
+            $sql = "INSERT INTO time_off (employee_id, start_date, end_date, reason, comments, status, is_sick) VALUES (?, ?, ?, ?, ?, 'requested',?)";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([$employee_id, $start_date, $end_date, $reason, $comments, $is_sick]);
+
+            // Bericht dat de time-off aanvraag succesvol is
+            echo "Time off requested successfully";
+            // Redirect terug naar de user_index pagina
+            header('Location: user_index.php');
+            exit;
+        } catch (PDOException $e) {
+            // Foutmelding weergeven
+            echo "Error: " . $e->getMessage();
+        }
+    } else {
+        // Als de gebruiker niet is ingelogd, een foutmelding weergeven
+        echo "Error: User not logged in.";
+    }
 }
 ?><!DOCTYPE html>
 <html lang="en">
@@ -53,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    <form action="user_index.php" method="post">
+    <form action="time_off_user.php" method="post">
         <h2>Time-off form</h2>
         <div class="time_off">
             <label for="start_date">Start Date:</label>
