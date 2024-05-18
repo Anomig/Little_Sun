@@ -1,10 +1,5 @@
 <?php
 
-
-echo password_hash('1234', PASSWORD_DEFAULT);
-
-
-
 session_start();
 include_once(__DIR__ . "/classes/Data.php");
 
