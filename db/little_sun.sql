@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 18, 2024 at 11:41 AM
+-- Generation Time: May 18, 2024 at 12:35 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -69,7 +69,8 @@ CREATE TABLE `hub_location` (
 
 INSERT INTO `hub_location` (`id`, `name`, `country`) VALUES
 (1, 'Little sun', 'Zambia'),
-(2, 'School', 'Zambia');
+(2, 'School', 'Zambia'),
+(3, 'works', 'Zambia');
 
 -- --------------------------------------------------------
 
@@ -91,6 +92,14 @@ CREATE TABLE `hub_tasks` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Dumping data for table `hub_tasks`
+--
+
+INSERT INTO `hub_tasks` (`id`, `task_name`, `task_description`, `task_type`, `task_status`, `task_start_date`, `task_end_date`, `assigned_to`, `hub_location_id`, `assigned_manager_id`) VALUES
+(1, 'Office Duty', 'Be in the office', NULL, 'Open', NULL, NULL, NULL, NULL, NULL),
+(2, 'cleaning', 'sweep, sweep, sweep', NULL, 'Open', NULL, NULL, NULL, NULL, NULL);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -108,6 +117,12 @@ ALTER TABLE `hub_location`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `hub_tasks`
+--
+ALTER TABLE `hub_tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -121,12 +136,12 @@ ALTER TABLE `employees`
 -- AUTO_INCREMENT for table `hub_location`
 --
 ALTER TABLE `hub_location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `hub_location`
+-- AUTO_INCREMENT for table `hub_tasks`
 --
-ALTER TABLE `hub_location`
+ALTER TABLE `hub_tasks`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -138,10 +153,6 @@ ALTER TABLE `hub_location`
 --
 ALTER TABLE `employees`
   ADD CONSTRAINT `fk_location_id` FOREIGN KEY (`location_id`) REFERENCES `hub_location` (`id`) ON UPDATE CASCADE;
-COMMIT;
-
-ALTER TABLE `employees`
-  ADD CONSTRAINT `fk_task_id` FOREIGN KEY (`task_id`) REFERENCES `hub_tasks` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
