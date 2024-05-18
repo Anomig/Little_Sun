@@ -1,30 +1,23 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <title>How to create dynamic task calendar in HTML and PHP</title>
-    <!-- CSS for full calendar -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" rel="stylesheet" />
-    <!-- JS for jQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- JS for full calendar -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
-    <!-- bootstrap css and js -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
-
 <body>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <h5 align="center"></h5>
-                <div id="calendar"></div> <!-- Controleer of de juiste ID "calendar" wordt gebruikt -->
+                <div id="calendar"></div>
             </div>
         </div>
     </div>
-    <!-- Start popup dialog box -->
     <div class="modal fade" id="task_entry_modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
@@ -66,8 +59,6 @@
             </div>
         </div>
     </div>
-    <!-- End popup dialog box -->
-
     <script>
         $(document).ready(function() {
             display_tasks();
@@ -80,7 +71,6 @@
                 success: function(response) {
                     if (response.status) {
                         var events = [];
-
                         if (Array.isArray(response.data)) {
                             events = response.data.map(function(item) {
                                 return {
@@ -93,27 +83,6 @@
                                 };
                             });
                             console.log(events);
-                            console.log("yo");
-                        } else {
-                            // Als response.data geen array is, voeg het enkele object toe aan events
-                            events.push({
-                                id: response.data.id,
-                                title: response.data.title,
-                                start: response.data.start,
-                                end: response.data.end,
-                                color: response.data.color,
-                                url: response.data.url
-                            });
-                            console.log("hier");
-
-                            events.push({
-                                id: 2222,
-                                title: "yoyo",
-                                start: new Date(),
-                                end: new Date(),
-                                color: "red",
-                                url: "#"
-                            });
                         }
 
                         $('#calendar').fullCalendar({
@@ -145,10 +114,6 @@
             var task_name = $("#task_name").val();
             var task_start_date = $("#task_start_date").val();
             var task_end_date = $("#task_end_date").val();
-
-            console.log("Task Name:", task_name);
-            console.log("Task Start Date:", task_start_date);
-            console.log("Task End Date:", task_end_date);
 
             if (task_name === "" || task_start_date === "" || task_end_date === "") {
                 alert("Please enter all required details.");
@@ -182,5 +147,4 @@
         }
     </script>
 </body>
-
 </html>

@@ -19,7 +19,7 @@
                 </a>
             </li>
             
-            <li><a href="../Little_Sun/classes/Calendar.php">Calendar</a></li> <!-- werkt niet -->
+            <li><a href="calendar/user_calendar.php">Calendar</a></li> <!-- werkt niet -->
             <li><a href="manager_index.php">Manager</a></li>
             <li><a class="nav-items" href="logout.php">LOG OUT</a></li>
         </ul>
