@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Gegenereerd op: 05 mei 2024 om 18:02
--- Serverversie: 5.7.24
--- PHP-versie: 8.0.1
+-- Generation Time: May 18, 2024 at 12:37 PM
+-- Server version: 5.7.24
+-- PHP Version: 8.0.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,48 +18,49 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `littlesun`
+-- Database: `little_sun`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `hub_location`
+-- Table structure for table `hub_location`
 --
 
 CREATE TABLE `hub_location` (
   `id` int(11) NOT NULL,
-  `name` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `country` varchar(300) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `name` varchar(255) NOT NULL,
+  `country` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Gegevens worden geëxporteerd voor tabel `hub_location`
+-- Dumping data for table `hub_location`
 --
 
 INSERT INTO `hub_location` (`id`, `name`, `country`) VALUES
-(10, 'Maastricht', 'Zambia'),
-(18, 'TM', 'Zambia');
+(1, 'Little sun', 'Zambia'),
+(2, 'School', 'Zambia'),
+(3, 'works', 'Zambia');
 
 --
--- Indexen voor geëxporteerde tabellen
+-- Indexes for dumped tables
 --
 
 --
--- Indexen voor tabel `hub_location`
+-- Indexes for table `hub_location`
 --
 ALTER TABLE `hub_location`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT voor geëxporteerde tabellen
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT voor een tabel `hub_location`
+-- AUTO_INCREMENT for table `hub_location`
 --
 ALTER TABLE `hub_location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
