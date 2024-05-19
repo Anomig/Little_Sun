@@ -43,7 +43,7 @@ CREATE TABLE `task_assignments` (
 ALTER TABLE `task_assignments`
   ADD PRIMARY KEY (`id`);
 
---
+
 -- AUTO_INCREMENT for dumped tables
 --
 
