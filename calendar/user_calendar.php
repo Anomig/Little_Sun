@@ -8,8 +8,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/styles/normalize.css">
+  <link rel="stylesheet" href="/styles/nav.css">
+
 </head>
 <body>
+<?php include_once("manager.nav.inc.php"); ?>
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
