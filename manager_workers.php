@@ -27,13 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['assign_tasks'])) {
                   echo "Error assigning task: " . $stmt->errorInfo()[2];
               }
           }
-      }else {
-        // Verwijder alle bestaande toewijzingen als er geen taken zijn geselecteerd
-        $user_id = $worker['id'];
-        $sql = "DELETE FROM task_assignments WHERE user_id = ?";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute([$user_id]);
-    }
+      } else {
+          // Verwijder alle bestaande toewijzingen als er geen taken zijn geselecteerd
+          $user_id = $worker['id'];
+          $sql = "DELETE FROM task_assignments WHERE user_id = ?";
+          $stmt = $pdo->prepare($sql);
+          $stmt->execute([$user_id]);
+      }
   }
   $_SESSION['message'] = "Taken succesvol toegewezen aan de geselecteerde gebruikers.";
   header("Location: " . $_SERVER['PHP_SELF']);
@@ -49,7 +49,6 @@ function getAssignedTasks($pdo) {
 }
 
 $assignedTasks = getAssignedTasks($pdo);
-
 ?>
 
 <!DOCTYPE html>
@@ -65,6 +64,8 @@ $assignedTasks = getAssignedTasks($pdo);
 </head>
 <body>
   <?php include_once("manager.nav.inc.php"); ?>
+
+  <div class="body">
 
   <div class="index_title">
     <h1>Workers in Hub</h1>
@@ -109,5 +110,6 @@ $assignedTasks = getAssignedTasks($pdo);
     </div>
     <button type="submit" name="assign_tasks">Taken toewijzen</button>
   </form>
+</div>
 </body>
 </html>

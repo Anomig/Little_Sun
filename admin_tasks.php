@@ -1,4 +1,7 @@
 <?php
+
+//NIET MEER NODIG
+
 require_once(__DIR__ . "/classes/data.php");
 
 // Functie om een taak toe te voegen

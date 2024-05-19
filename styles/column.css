@@ -13,13 +13,14 @@
 /* Stijlen voor de Add Hub Managers div */
 .add-hub-managers {
     width: 100%;  
-    max-width: 500px;  
+    max-width: 400px;  /* Verminder de maximale breedte voor een kleinere kolom */
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin-top: 20px;
     background-color: #fff;
     border-radius: 16px;
+    margin-bottom: 20px; /* Voeg 20px marge onder de knop toe */
 }
 
 /* Marges voor de titel */
@@ -47,12 +48,13 @@
 .add-hub-managers form select {
     width: 100%;  /* Zorg ervoor dat de invulvakken de volledige breedte van de container nemen */
     max-width: 270px;  /* Maximale breedte voor betere leesbaarheid */
-    padding: 2px;
+    padding: 8px;  /* Zorg voor meer opvulling voor de tekstvakken */
     box-sizing: border-box;
 }
 
 /* Stijlen voor de button */
-.add-hub-managers button {
+.add-hub-managers button,
+.add-hub-managers input[type="submit"] {
     background-color: #ffdd02;
     border: none;
     color: black;
@@ -61,27 +63,61 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin: 20px; 
+    margin: 20px auto; 
     justify-content: center;
     border-radius: 6px; 
-    
+    cursor: pointer;
 }
 
-.add-hub-managers button:hover {
+.add-hub-managers button:hover,
+.add-hub-managers input[type="submit"]:hover {
     background-color: #e6b800; 
-    border-color: black; /*werkt nog niet*/
+    border-color: black; 
     transform: scale(1.1);  
 }
 
 /* Flex container voor twee kolommen */
 .form-container {
     display: flex;
-    justify-content: space-between;
-    gap: 20px;  /* Ruimte tussen de kolommen */
+    
+    gap: 5%;  /* Ruimte tussen de kolommen */
 }
 
 .form-container .add-hub-managers {
     flex: 1;  /* Maak beide kolommen gelijk in breedte */
-    
-   
+}
+
+/* Stijlen voor de task items */
+ul {
+    list-style-type: none; /* Verwijder de opsommingstekens */
+    padding: 0;
+}
+
+.task-item {
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 10px 0;
+    background-color: #fff;
+    border-radius: 16px;
+    max-width: 85%;
+}
+
+.task-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: larger;
+    margin-top: 10px;
+    gap: 20px;
+}
+
+.datetime-field {
+    margin-bottom: 10px; /* Voeg wat marge toe onder elk datetime-veld */
+}
+
+.save-button-container {
+    text-align: center; /* Centreer de knop */
+    margin-top: 20px; /* Voeg wat ruimte toe boven de knop */
 }

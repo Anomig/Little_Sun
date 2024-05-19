@@ -19,7 +19,7 @@
                 </a>
             </li>
             
-            <li><a href="user_index.php">User</a></li>
+            <li><a href="user_index.php">- User</a></li>
             <li><a class="nav-items" href="logout.php">LOG OUT</a></li>
         </ul>
     </nav>

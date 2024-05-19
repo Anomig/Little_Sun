@@ -19,8 +19,9 @@
                 </a>
             </li>
             
+            <li><a href="manager_workers.php">Hubworkers</a></li>
             <li><a href="calendar/user_calendar.php">Calendar</a></li> <!-- werkt niet -->
-            <li><a href="manager_index.php">Manager</a></li>
+            <li><a href="manager_index.php">- Manager</a></li>
             <li><a class="nav-items" href="logout.php">LOG OUT</a></li>
         </ul>
     </nav>

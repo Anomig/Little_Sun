@@ -1,4 +1,7 @@
 <?php
+
+//NIET NODIG
+
 include_once(__DIR__ . "/classes/data.php");
 include_once(__DIR__ . "/classes/HubUser.php");
 
