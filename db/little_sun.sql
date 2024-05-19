@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 19, 2024 at 09:13 AM
+-- Generation Time: May 19, 2024 at 06:11 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -51,7 +51,13 @@ INSERT INTO `employees` (`id`, `firstname`, `lastname`, `email`, `password`, `fu
 (8, 'me', 'ma', 'me@ma.com', '$2y$10$Qw6hw4Ys4AG5ZcpVXxIpKuVxNMM2AkCcRY0ibI1/i8yclfvxFZQve', 'manager', 1, NULL),
 (9, 'Hannelore', 'VB', 'h@vb.com', '$2y$10$h49W2zsUek5gQylWyGIRfO0Oen32YEEh4E/1dCWU4WmBfIIYccGIi', 'manager', 2, NULL),
 (10, 'amy', 'amy', '@my.com', '$2y$10$bxj3jTav3qQQXx1KdOweVugg7rv7nnPd.CtcW4My7q/Syd5oNCSkS', 'user', 2, NULL),
-(11, 'na', 'omi', '@omi.com', '$2y$10$Ni9UjgXpLwUeIAfLlVF4SOH7AlHfjAzl83S6wg/U4qUtyBeBov.mG', 'user', 3, NULL);
+(11, 'na', 'omi', '@omi.com', '$2y$10$Ni9UjgXpLwUeIAfLlVF4SOH7AlHfjAzl83S6wg/U4qUtyBeBov.mG', 'user', 3, NULL),
+(12, 'Hannelore', 'Van Buynderen', 'hannelorevb@hotmail.be', '$2y$10$XWd96hckaagVDoc1w4D9YelcZJbQQIjcpOObYWOk6Ocfdqov4TgPq', 'manager', 3, NULL),
+(13, 'little', 'sun', 'little@sun.com', '$2y$10$pNZsgMEVs85g55ysQbEQtusmcPE2iLOVhtgfC13j7ljVUGDfcz946', 'manager', 1, NULL),
+(15, 'bla', 'bla', 'bla@blah.com', '$2y$10$Tm82o03khd7IbmulD8bLo..gNWFOOCOABDFVuUGIT5uYXHY.1OulS', 'manager', 1, NULL),
+(16, 'ellio', 'doggo', 'ellio@doggo.com', '$2y$10$gl1qQipFJxHn8kdR0G/iyutbKnjlLALhnFzJ.OOuYoIQX0hTKt7XS', 'user', 3, NULL),
+(17, 'test', 'test', 'test@test.com', '$2y$10$hZzdXc2vfEdro5LZCcRMS.LPoQd8LBmZYMWy.xm0MIXhMWwxYevEu', 'user', NULL, 1),
+(18, 'cruella', 'deville', 'cruella@deville', '$2y$10$nZ2XuwxWyD230HB6QC.3hOd2t4pw.Vb0QebWw7o9s9fM9kNV.Bscu', 'user', NULL, 2);
 
 -- --------------------------------------------------------
 
@@ -72,7 +78,7 @@ CREATE TABLE `hub_location` (
 INSERT INTO `hub_location` (`id`, `name`, `country`) VALUES
 (1, 'Little sun', 'Zambia'),
 (2, 'School', 'Zambia'),
-(3, 'works', 'Zambia');
+(3, 'work', 'Zambia');
 
 -- --------------------------------------------------------
 
@@ -90,38 +96,35 @@ CREATE TABLE `hub_tasks` (
   `task_end_date` datetime DEFAULT NULL,
   `assigned_to` int(11) DEFAULT NULL,
   `hub_location_id` int(11) DEFAULT NULL,
-  `assigned_manager_id` int(11) DEFAULT NULL
+  `assigned_manager_id` int(11) DEFAULT NULL,
+  `color` varchar(7) COLLATE utf8mb4_unicode_ci DEFAULT '#3788D8'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `hub_tasks`
 --
 
-INSERT INTO `hub_tasks` (`id`, `task_name`, `task_description`, `task_type`, `task_status`, `task_start_date`, `task_end_date`, `assigned_to`, `hub_location_id`, `assigned_manager_id`) VALUES
-(1, 'Office Duty', 'Be in the office', NULL, 'Open', NULL, NULL, 10, NULL, NULL),
-(2, 'cleaning', 'sweep, sweep, sweep', NULL, 'Open', NULL, NULL, NULL, NULL, NULL),
-(3, 'work', 'working', NULL, 'Open', NULL, NULL, NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `task_assignments`
---
-
-CREATE TABLE `task_assignments` (
-  `id` int(11) NOT NULL,
-  `task_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `task_assignments`
---
-
-INSERT INTO `task_assignments` (`id`, `task_id`, `user_id`) VALUES
-(175, 1, 5),
-(176, 3, 10),
-(177, 2, 11);
+INSERT INTO `hub_tasks` (`id`, `task_name`, `task_description`, `task_type`, `task_status`, `task_start_date`, `task_end_date`, `assigned_to`, `hub_location_id`, `assigned_manager_id`, `color`) VALUES
+(1, 'Office Duty', 'Be in the office', NULL, 'Open', NULL, NULL, 18, NULL, NULL, '#3788D8'),
+(2, 'cleaning', 'sweep, sweep, sweep', NULL, 'Open', NULL, NULL, NULL, NULL, NULL, '#3788D8'),
+(8, 'zjeltgbk', 'ueohb', NULL, 'Open', NULL, NULL, NULL, NULL, NULL, '#3788D8'),
+(9, 'deadline', 'at 23.59u', NULL, 'Open', '2024-05-19 09:40:00', '2024-05-19 23:59:00', NULL, NULL, NULL, '#3788D8'),
+(12, 'typing', 'on the computer', NULL, 'Open', '2024-05-19 15:51:00', '2024-05-19 16:51:00', 12, NULL, NULL, '#3788D8'),
+(13, 'new', 'task', NULL, 'Open', '2024-05-19 16:01:00', '2024-05-19 17:01:00', 3, NULL, NULL, '#3788D8'),
+(14, 'newest ', 'task', NULL, 'Open', '2024-05-21 16:03:00', '2024-05-21 17:03:00', 16, NULL, NULL, '#3788D8'),
+(15, 'newer', 'task', NULL, 'Open', '2024-05-23 16:04:00', '2024-05-23 18:04:00', 17, NULL, NULL, '#3788D8'),
+(21, 'fvdsb', 'bvdbg', NULL, 'Open', '2024-05-24 19:44:00', '2024-05-24 22:44:00', 2, 1, NULL, '#3788D8'),
+(22, 'celebrate', 'birthday', NULL, 'Open', '2024-05-22 16:54:00', '2024-05-22 16:54:00', 2, 1, NULL, '#3788D8'),
+(23, 'lfucyvzqk', 'bzvrsbdv', NULL, 'Open', '2024-05-09 17:09:00', '2024-05-10 17:09:00', 2, 1, NULL, '#3788D8'),
+(24, 'ynthbgfrqds', 'u,yjnfdssq', NULL, 'Open', '2024-05-01 18:27:00', '2024-05-01 19:27:00', 2, 1, NULL, '#3788D8'),
+(25, 'brtvercseqx', 'nbyrsvfqw', NULL, 'Open', '2024-05-02 18:32:00', '2024-05-02 19:32:00', 2, 2, NULL, '#3788D8'),
+(26, 'Development 4', 'coding', NULL, 'Open', '2024-05-07 19:34:00', '2024-05-07 22:34:00', 2, 1, NULL, '#3788D8'),
+(27, 'tbrgvefqcsd', ';iku,tyjrngdfs qs', NULL, 'Open', '2024-05-03 21:45:00', '2024-05-03 22:45:00', 3, 2, NULL, '#3788D8'),
+(28, 'yrgteqzcexQW', '6UNTEYBRVEQ', NULL, 'Open', '2024-05-19 23:00:00', '2024-05-19 23:10:00', 8, 2, NULL, '#3788D8'),
+(29, 'tybrvefczdxsqw', 'U?YRNTHEBGRVDQFS', NULL, 'Open', '2024-05-19 18:59:00', '2024-05-19 19:59:00', 3, 2, NULL, '#3788D8'),
+(30, 'ièyjugtbrefqcsD', 'I.YU?TNYJRTHBGFDS', NULL, 'Open', '2024-05-19 18:59:00', '2024-05-19 20:59:00', 5, 3, NULL, '#3788D8'),
+(31, 'ynhtbgfvd', 'utyntdbvs', NULL, 'Open', '2024-05-19 23:00:00', '2024-05-19 23:04:00', 15, 3, NULL, '#3788D8'),
+(32, 'uk,ynjrthbgfrdqs', ';kjgfdiuyjnhtbgfvd', NULL, 'Open', '2024-05-08 12:30:00', '2024-05-08 13:00:00', 18, 2, NULL, '#3788D8');
 
 -- --------------------------------------------------------
 
@@ -148,9 +151,8 @@ INSERT INTO `time_off` (`id`, `start_date`, `end_date`, `reason`, `comments`, `s
 (1, '2024-05-18', '2024-05-25', 'vacation', 'holiday', 'requested', 0, 5),
 (2, '2024-05-19', '2024-05-25', 'birthday', 'happy me', 'requested', 0, 5),
 (5, '2024-05-19', '2024-05-21', 'sickness', '', 'requested', 1, 5),
-(6, '2024-05-19', '2024-05-21', 'sickness', 'me sick', 'requested', 1, 5),
-(7, '2024-05-26', '2024-05-27', 'sickness', '', 'requested', 1, 5),
-(8, '2024-05-26', '2024-05-29', 'sickness', '', 'requested', 1, 5);
+(6, '2024-05-20', '2024-05-21', 'vacation', 'vacay timee!', 'requested', 0, 5),
+(7, '2024-05-19', '2024-05-20', 'vacation', 'vacay timee', 'requested', 0, 5);
 
 -- --------------------------------------------------------
 
@@ -173,9 +175,11 @@ CREATE TABLE `work_times` (
 INSERT INTO `work_times` (`id`, `clock_in`, `clock_out`, `overtime`, `total_hours`) VALUES
 (30, '2024-05-18 15:49:13', '2024-05-18 15:49:18', '0.00', '00:00:05'),
 (31, '2024-05-18 15:52:29', '2024-05-18 15:52:31', '0.00', '00:00:02'),
-(32, '2024-05-18 18:53:00', '2024-05-18 18:53:08', '0.00', '00:00:08'),
-(33, '2024-05-18 19:39:02', '2024-05-18 19:39:04', '0.00', '00:00:02'),
-(34, '2024-05-19 08:47:11', '2024-05-19 08:47:14', '0.00', '00:00:03');
+(32, '2024-05-18 17:32:39', '2024-05-18 17:32:42', '0.00', '00:00:03'),
+(33, '2024-05-18 17:32:57', '2024-05-18 17:32:58', '0.00', '00:00:01'),
+(34, '2024-05-18 17:36:03', '2024-05-18 17:36:08', '0.00', '00:00:05'),
+(35, '2024-05-18 17:36:19', '2024-05-18 17:36:36', '0.00', '00:00:17'),
+(36, '2024-05-18 19:24:51', '2024-05-18 19:25:01', '0.00', '00:00:10');
 
 --
 -- Indexes for dumped tables
@@ -201,14 +205,6 @@ ALTER TABLE `hub_tasks`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `task_assignments`
---
-ALTER TABLE `task_assignments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `task_id` (`task_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
 -- Indexes for table `time_off`
 --
 ALTER TABLE `time_off`
@@ -229,37 +225,31 @@ ALTER TABLE `work_times`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `hub_location`
 --
 ALTER TABLE `hub_location`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `hub_tasks`
 --
 ALTER TABLE `hub_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `task_assignments`
---
-ALTER TABLE `task_assignments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `time_off`
 --
 ALTER TABLE `time_off`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `work_times`
 --
 ALTER TABLE `work_times`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- Constraints for dumped tables
@@ -270,13 +260,6 @@ ALTER TABLE `work_times`
 --
 ALTER TABLE `employees`
   ADD CONSTRAINT `fk_location_id` FOREIGN KEY (`location_id`) REFERENCES `hub_location` (`id`) ON UPDATE CASCADE;
-
---
--- Constraints for table `task_assignments`
---
-ALTER TABLE `task_assignments`
-  ADD CONSTRAINT `fk_task_id` FOREIGN KEY (`task_id`) REFERENCES `hub_tasks` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `time_off`

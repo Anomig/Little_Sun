@@ -26,6 +26,7 @@
 /* Marges voor de titel */
 .add-hub-managers-container h1 {
     margin-bottom: 20px;
+    text-align: center;
 }
 
 /* Marges voor de formuliervelden */
@@ -124,7 +125,7 @@ ul {
 
 /* Algemeen marges en opmaak */
 .body {
-    margin: 5%;
+    /* margin: 5%; */
 }
 
 /* Knoppen stijl */

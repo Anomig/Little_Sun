@@ -18,7 +18,8 @@
                     <img id="logo" src="images/little_sun_logo.png" alt="Logo">
                 </a>
             </li>
-            
+
+            <li><a href="user_calendar/user_calendar.php">Calendar</a></li>
             <li><a href="user_index.php">- User</a></li>
             <li><a class="nav-items" href="logout.php">LOG OUT</a></li>
         </ul>
