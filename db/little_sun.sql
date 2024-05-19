@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 19, 2024 at 06:11 PM
+-- Generation Time: May 19, 2024 at 09:12 PM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -124,7 +124,20 @@ INSERT INTO `hub_tasks` (`id`, `task_name`, `task_description`, `task_type`, `ta
 (29, 'tybrvefczdxsqw', 'U?YRNTHEBGRVDQFS', NULL, 'Open', '2024-05-19 18:59:00', '2024-05-19 19:59:00', 3, 2, NULL, '#3788D8'),
 (30, 'ièyjugtbrefqcsD', 'I.YU?TNYJRTHBGFDS', NULL, 'Open', '2024-05-19 18:59:00', '2024-05-19 20:59:00', 5, 3, NULL, '#3788D8'),
 (31, 'ynhtbgfvd', 'utyntdbvs', NULL, 'Open', '2024-05-19 23:00:00', '2024-05-19 23:04:00', 15, 3, NULL, '#3788D8'),
-(32, 'uk,ynjrthbgfrdqs', ';kjgfdiuyjnhtbgfvd', NULL, 'Open', '2024-05-08 12:30:00', '2024-05-08 13:00:00', 18, 2, NULL, '#3788D8');
+(32, 'uk,ynjrthbgfrdqs', ';kjgfdiuyjnhtbgfvd', NULL, 'Open', '2024-05-08 12:30:00', '2024-05-08 13:00:00', 18, 2, NULL, '#3788D8'),
+(33, 'Office Duty', 'in the office', NULL, 'Open', '2024-05-26 22:55:00', '2024-05-26 22:57:00', 5, 1, NULL, '#3788D8');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_assignments`
+--
+
+CREATE TABLE `task_assignments` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -179,7 +192,10 @@ INSERT INTO `work_times` (`id`, `clock_in`, `clock_out`, `overtime`, `total_hour
 (33, '2024-05-18 17:32:57', '2024-05-18 17:32:58', '0.00', '00:00:01'),
 (34, '2024-05-18 17:36:03', '2024-05-18 17:36:08', '0.00', '00:00:05'),
 (35, '2024-05-18 17:36:19', '2024-05-18 17:36:36', '0.00', '00:00:17'),
-(36, '2024-05-18 19:24:51', '2024-05-18 19:25:01', '0.00', '00:00:10');
+(36, '2024-05-18 19:24:51', '2024-05-18 19:25:01', '0.00', '00:00:10'),
+(37, '2024-05-19 20:56:23', '2024-05-19 20:56:25', '0.00', '00:00:02'),
+(38, '2024-05-19 20:59:34', '2024-05-19 20:59:37', '0.00', '00:00:03'),
+(39, '2024-05-19 20:59:58', '2024-05-19 21:00:31', '0.00', '00:00:33');
 
 --
 -- Indexes for dumped tables
@@ -202,6 +218,12 @@ ALTER TABLE `hub_location`
 -- Indexes for table `hub_tasks`
 --
 ALTER TABLE `hub_tasks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `task_assignments`
+--
+ALTER TABLE `task_assignments`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -237,7 +259,13 @@ ALTER TABLE `hub_location`
 -- AUTO_INCREMENT for table `hub_tasks`
 --
 ALTER TABLE `hub_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT for table `task_assignments`
+--
+ALTER TABLE `task_assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `time_off`
@@ -249,7 +277,7 @@ ALTER TABLE `time_off`
 -- AUTO_INCREMENT for table `work_times`
 --
 ALTER TABLE `work_times`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints for dumped tables
