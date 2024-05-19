@@ -33,16 +33,16 @@ $pdo = Data::getConnection();
 </head>
 <body>
   <?php include_once("manager.nav.inc.php"); ?>
-  <h1>Rapporten Dashboard</h1>
+  <h1>Report Dashboard</h1>
   <form onsubmit="event.preventDefault(); generateReport();">
-        <label for="report_type">Selecteer een rapporttype:</label>
+        <label for="report_type">Choose a reporttype:</label>
         <select name="type" id="report_type">
-            <option value="hours_per_person">Aantal gewerkte uren per persoon</option>
-            <option value="hours_per_task">Aantal gewerkte uren per taak</option>
-            <option value="sick_leave">Ziekteverlof</option>
-            <option value="leave">Vakantieverlof</option>
+            <!-- <option value="hours_per_person">Aantal gewerkte uren per persoon</option>
+            <option value="hours_per_task">Aantal gewerkte uren per taak</option> -->
+            <option value="sick_leave">Sick leave</option>
+            <option value="leave">Time Off</option>
         </select>
-        <button type="submit">Genereer Rapport</button>
+        <button type="submit">Generate Report</button>
     </form>
     <div id="report_container"></div>
 </body>

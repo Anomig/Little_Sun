@@ -156,18 +156,30 @@ try {
 
 
 // Handle time off request approval/denial
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] === 'updateStatus') {
-  $requestId = $_POST['request_id'];
-  $newStatus = $_POST['status'];
+// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] === 'updateStatus') {
+//   $requestId = $_POST['request_id'];
+//   $newStatus = $_POST['status'];
 
-  try {
-      $stmt = $pdo->prepare("UPDATE time_off SET status = ? WHERE id = ?");
-      $stmt->execute([$newStatus, $requestId]);
-      $popupMessage = "Request status has been updated to " . $newStatus . ".";
-  } catch (PDOException $e) {
-      $error = "There has been an error, please reload the page.";
-  }
+//   try {
+//       $stmt = $pdo->prepare("UPDATE time_off SET status = ? WHERE id = ?");
+//       $stmt->execute([$newStatus, $requestId]);
+//       $popupMessage = "Request status has been updated to " . $newStatus . ".";
+//   } catch (PDOException $e) {
+//       $error = "There has been an error, please reload the page.";
+//   }
+// }
+$timeOffRequests = [];
+try {
+  $stmt = $pdo->query(
+    "SELECT time_off.id, time_off.start_date, time_off.end_date, time_off.reason, time_off.comments, time_off.status, time_off.is_sick, time_off.employee_id, employees.firstname, employees.lastname, employees.email
+    FROM time_off
+    JOIN employees ON time_off.employee_id = employees.id"
+  );
+  $timeOffRequests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  error_log("Database error: " . $e->getMessage());
 }
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -284,6 +296,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
           <?php endforeach; ?>
         </ul>
       </div>
+        <!-- TIME OFF REQUESTS -->
+        <div class="body add-hub-managers" id="time-off-requests">
+          <div class="index_title">
+            <h2>Time Off Requests</h2>
+          </div>
+
+          <?php if (!empty($popupMessage)) : ?>
+            <div class="popup-message"><?php echo $popupMessage; ?></div>
+          <?php endif; ?>
+
+          <ul id="task-details time-off-details">
+            <?php foreach ($timeOffRequests as $request) : ?>
+              <li class="task-item add-hub-managers">
+                <div id="task-details time-off-details">
+                  <div><strong>Employee:</strong> <?php echo $request['firstname'] . ' ' . $request['lastname'] . ' (' . $request['email'] . ')'; ?></div>
+                  <div><strong>Start Date:</strong> <?php echo $request['start_date']; ?></div>
+                  <div><strong>End Date:</strong> <?php echo $request['end_date']; ?></div>
+                  <div><strong>Reason:</strong> <?php echo $request['reason']; ?></div>
+                  <div><strong>Comments:</strong> <?php echo $request['comments']; ?></div>
+                  <div><strong>Status:</strong> <?php echo $request['status']; ?></div>
+                </div>
+                <form action="" method="post">
+                  <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>">
+                  <input type="hidden" name="action" value="updateStatus">
+                  <div class="field-container" id="extra">
+                    <label for="status_<?php echo $request['id']; ?>" class="text-slate-700">Update Status</label>
+                    <select name="status" id="status_<?php echo $request['id']; ?>" class="border-solid border-slate-20 border-2 rounded">
+                      <option value="requested" <?php echo $request['status'] === 'requested' ? 'selected' : ''; ?>>Requested</option>
+                      <option value="approved" <?php echo $request['status'] === 'approved' ? 'selected' : ''; ?>>Approved</option>
+                      <option value="denied" <?php echo $request['status'] === 'denied' ? 'selected' : ''; ?>>Denied</option>
+                    </select>
+                  </div>
+                  <div class="save-button-container">
+                    <input type="submit" class="cursor-pointer p-2 rounded text-white font-bold bg-green-600" value="Save">
+                  </div>
+                </form>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+        <!-- EINDE TIME OFF REQUESTS -->
     </div>
   </div>
 
