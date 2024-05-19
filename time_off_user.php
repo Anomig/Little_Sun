@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $is_sick = $_POST['is_sick'];
 
         // Controleer of de reden "sickness" is
-        $is_sick = ($reason === 'sickness') ? true : false;
+        $is_sick = ($reason === 'sickness') ? 1 : 0;
 
         try {
             // Bereid de SQL query voor om de time-off aanvraag toe te voegen
