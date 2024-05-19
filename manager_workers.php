@@ -27,7 +27,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['assign_tasks'])) {
                   echo "Error assigning task: " . $stmt->errorInfo()[2];
               }
           }
-      }
+      }else {
+        // Verwijder alle bestaande toewijzingen als er geen taken zijn geselecteerd
+        $user_id = $worker['id'];
+        $sql = "DELETE FROM task_assignments WHERE user_id = ?";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([$user_id]);
+    }
   }
   $_SESSION['message'] = "Taken succesvol toegewezen aan de geselecteerde gebruikers.";
   header("Location: " . $_SERVER['PHP_SELF']);
