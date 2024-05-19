@@ -6,6 +6,28 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
+//reset password
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Formuliergegevens ophalen
+    $email = $_POST['email'];
+    $new_password = $_POST['new_password'];
+    $confirm_password = $_POST['confirm_password'];
+
+    // Controleer of de nieuwe wachtwoorden overeenkomen
+    if ($new_password !== $confirm_password) {
+        echo "De nieuwe wachtwoorden komen niet overeen.";
+        exit; // Stop de scriptuitvoering als de wachtwoorden niet overeenkomen
+    }
+
+    // Reset het wachtwoord met behulp van de klasse
+    $resetResult = $hubManager->resetPassword($email, $new_password);
+    if ($resetResult) {
+        echo "Wachtwoord succesvol gereset.";
+    } else {
+        echo "Er is een fout opgetreden bij het resetten van het wachtwoord.";
+    }
+}
+//einde reset password
 
 
 // ADD MANAGER
@@ -154,7 +176,8 @@ try {
 }
 //EINDE LOCATIE TOEVOEGEN
 
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -273,6 +296,22 @@ try {
                 </form>
             </div>
             <!-- EINDE LOCATIE toevoegen -->
+
+
+
+        </div>
+
+        <div class="add-hub-managers">
+            <h2>Reset Password</h2>
+            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" required><br>
+                <label for="new_password">New Password:</label>
+                <input type="password" id="new_password" name="new_password" required><br>
+                <label for="confirm_password">Confirm New Password:</label>
+                <input type="password" id="confirm_password" name="confirm_password" required><br>
+                <button type="submit">Reset Password</button>
+            </form>
         </div>
     </div>
 </body>

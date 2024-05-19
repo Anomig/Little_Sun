@@ -232,6 +232,8 @@ try {
     </div>
   </div>
 
+  
+
   <script>
     // JavaScript om de invoervelden dynamisch weer te geven op basis van de taakselectie
     function toggleDateTimeFields(taskId) {
