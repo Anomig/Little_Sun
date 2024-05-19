@@ -1,4 +1,7 @@
 <?php
+
+//NIET MEER NODIG
+
 session_start();
 
 include_once(__DIR__ . "/classes/data.php");
