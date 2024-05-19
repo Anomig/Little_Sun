@@ -156,18 +156,30 @@ try {
 
 
 // Handle time off request approval/denial
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] === 'updateStatus') {
-  $requestId = $_POST['request_id'];
-  $newStatus = $_POST['status'];
+// if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['action'] === 'updateStatus') {
+//   $requestId = $_POST['request_id'];
+//   $newStatus = $_POST['status'];
 
-  try {
-      $stmt = $pdo->prepare("UPDATE time_off SET status = ? WHERE id = ?");
-      $stmt->execute([$newStatus, $requestId]);
-      $popupMessage = "Request status has been updated to " . $newStatus . ".";
-  } catch (PDOException $e) {
-      $error = "There has been an error, please reload the page.";
-  }
+//   try {
+//       $stmt = $pdo->prepare("UPDATE time_off SET status = ? WHERE id = ?");
+//       $stmt->execute([$newStatus, $requestId]);
+//       $popupMessage = "Request status has been updated to " . $newStatus . ".";
+//   } catch (PDOException $e) {
+//       $error = "There has been an error, please reload the page.";
+//   }
+// }
+$timeOffRequests = [];
+try {
+  $stmt = $pdo->query(
+    "SELECT time_off.id, time_off.start_date, time_off.end_date, time_off.reason, time_off.comments, time_off.status, time_off.is_sick, time_off.employee_id, employees.firstname, employees.lastname, employees.email
+    FROM time_off
+    JOIN employees ON time_off.employee_id = employees.id"
+  );
+  $timeOffRequests = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+  error_log("Database error: " . $e->getMessage());
 }
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -298,7 +310,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
             <?php foreach ($timeOffRequests as $request) : ?>
               <li class="task-item add-hub-managers">
                 <div id="task-details time-off-details">
-                  <div><strong>Employee:</strong> <?php //echo $request['firstname'] . ' ' . $request['lastname'] . ' (' . $request['email'] . ')'; ?></div>
+                  <div><strong>Employee:</strong> <?php echo $request['firstname'] . ' ' . $request['lastname'] . ' (' . $request['email'] . ')'; ?></div>
                   <div><strong>Start Date:</strong> <?php echo $request['start_date']; ?></div>
                   <div><strong>End Date:</strong> <?php echo $request['end_date']; ?></div>
                   <div><strong>Reason:</strong> <?php echo $request['reason']; ?></div>
