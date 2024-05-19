@@ -1,17 +1,17 @@
 .body {
     margin: 5%;
-}
-
-/* Container voor de titel en het formulier */
-.add-hub-managers-container {
+  }
+  
+  /* Container voor de titel en het formulier */
+  .add-hub-managers-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
-}
-
-/* Stijlen voor de Add Hub Managers div */
-.add-hub-managers {
+  }
+  
+  /* Stijlen voor de Add Hub Managers div */
+  .add-hub-managers {
     width: 100%;  
     max-width: 400px;  /* Verminder de maximale breedte voor een kleinere kolom */
     border: 1px solid #ddd;
@@ -21,40 +21,40 @@
     background-color: #fff;
     border-radius: 16px;
     margin-bottom: 20px; /* Voeg 20px marge onder de knop toe */
-}
-
-/* Marges voor de titel */
-.add-hub-managers-container h1 {
+  }
+  
+  /* Marges voor de titel */
+  .add-hub-managers-container h1 {
     margin-bottom: 20px;
-}
-
-/* Marges voor de formuliervelden */
-.add-hub-managers form div {
+  }
+  
+  /* Marges voor de formuliervelden */
+  .add-hub-managers form div {
     margin-bottom: 10px;
-}
-
-/* Consistente uitlijning voor formuliervelden */
-.add-hub-managers form .field-container {
+  }
+  
+  /* Consistente uitlijning voor formuliervelden */
+  .add-hub-managers form .field-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-}
-
-.add-hub-managers form label {
+  }
+  
+  .add-hub-managers form label {
     margin-bottom: 5px;
-}
-
-.add-hub-managers form input,
-.add-hub-managers form select {
+  }
+  
+  .add-hub-managers form input,
+  .add-hub-managers form select {
     width: 100%;  /* Zorg ervoor dat de invulvakken de volledige breedte van de container nemen */
     max-width: 270px;  /* Maximale breedte voor betere leesbaarheid */
     padding: 8px;  /* Zorg voor meer opvulling voor de tekstvakken */
     box-sizing: border-box;
-}
-
-/* Stijlen voor de button */
-.add-hub-managers button,
-.add-hub-managers input[type="submit"] {
+  }
+  
+  /* Stijlen voor de button */
+  .add-hub-managers button,
+  .add-hub-managers input[type="submit"] {
     background-color: #ffdd02;
     border: none;
     color: black;
@@ -67,33 +67,34 @@
     justify-content: center;
     border-radius: 6px; 
     cursor: pointer;
-}
-
-.add-hub-managers button:hover,
-.add-hub-managers input[type="submit"]:hover {
+  }
+  
+  .add-hub-managers button:hover,
+  .add-hub-managers input[type="submit"]:hover {
     background-color: #e6b800; 
     border-color: black; 
     transform: scale(1.1);  
-}
-
-/* Flex container voor twee kolommen */
-.form-container {
+  }
+  
+  /* Flex container voor drie kolommen */
+  .form-container {
     display: flex;
-    
+    flex-wrap: wrap;
     gap: 5%;  /* Ruimte tussen de kolommen */
-}
-
-.form-container .add-hub-managers {
-    flex: 1;  /* Maak beide kolommen gelijk in breedte */
-}
-
-/* Stijlen voor de task items */
-ul {
+  }
+  
+  .form-container .add-hub-managers {
+    flex: 1;  /* Maak alle kolommen gelijk in breedte */
+    min-width: 300px;  /* Zorg ervoor dat de kolommen niet te smal worden */
+  }
+  
+  /* Stijlen voor de task items */
+  ul {
     list-style-type: none; /* Verwijder de opsommingstekens */
     padding: 0;
-}
-
-.task-item {
+  }
+  
+  .task-item {
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
@@ -101,9 +102,9 @@ ul {
     background-color: #fff;
     border-radius: 16px;
     max-width: 85%;
-}
-
-.task-details {
+  }
+  
+  .task-details {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -111,24 +112,24 @@ ul {
     font-size: larger;
     margin-top: 10px;
     gap: 20px;
-}
-
-.datetime-field {
+  }
+  
+  .datetime-field {
     margin-bottom: 10px; /* Voeg wat marge toe onder elk datetime-veld */
-}
-
-.save-button-container {
+  }
+  
+  .save-button-container {
     text-align: center; /* Centreer de knop */
     margin-top: 20px; /* Voeg wat ruimte toe boven de knop */
-}
-
-/* Algemeen marges en opmaak */
-.body {
+  }
+  
+  /* Algemeen marges en opmaak */
+  .body {
     margin: 5%;
-}
-
-/* Knoppen stijl */
-.button {
+  }
+  
+  /* Knoppen stijl */
+  .button {
     background-color: #ffdd02;
     border: none;
     color: black;
@@ -140,15 +141,15 @@ ul {
     margin: 20px auto;
     border-radius: 6px;
     cursor: pointer;
-}
-
-.button:hover {
+  }
+  
+  .button:hover {
     background-color: #e6b800;
     transform: scale(1.1);
-}
-
-/* Bericht stijl */
-.message {
+  }
+  
+  /* Bericht stijl */
+  .message {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
@@ -157,12 +158,11 @@ ul {
     border-radius: 5px;
     font-size: 1em;
     text-align: center;
-}
-
-.time_off {
+  }
+  
+  .time_off {
     display: flex;
     flex-direction: column;
     max-width: 40%;
-
-}
-
+  }
+  
