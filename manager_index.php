@@ -284,6 +284,47 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
           <?php endforeach; ?>
         </ul>
       </div>
+        <!-- TIME OFF REQUESTS -->
+        <div class="body add-hub-managers" id="time-off-requests">
+          <div class="index_title">
+            <h2>Time Off Requests</h2>
+          </div>
+
+          <?php if (!empty($popupMessage)) : ?>
+            <div class="popup-message"><?php echo $popupMessage; ?></div>
+          <?php endif; ?>
+
+          <ul id="task-details time-off-details">
+            <?php foreach ($timeOffRequests as $request) : ?>
+              <li class="task-item add-hub-managers">
+                <div id="task-details time-off-details">
+                  <div><strong>Employee:</strong> <?php //echo $request['firstname'] . ' ' . $request['lastname'] . ' (' . $request['email'] . ')'; ?></div>
+                  <div><strong>Start Date:</strong> <?php echo $request['start_date']; ?></div>
+                  <div><strong>End Date:</strong> <?php echo $request['end_date']; ?></div>
+                  <div><strong>Reason:</strong> <?php echo $request['reason']; ?></div>
+                  <div><strong>Comments:</strong> <?php echo $request['comments']; ?></div>
+                  <div><strong>Status:</strong> <?php echo $request['status']; ?></div>
+                </div>
+                <form action="" method="post">
+                  <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>">
+                  <input type="hidden" name="action" value="updateStatus">
+                  <div class="field-container" id="extra">
+                    <label for="status_<?php echo $request['id']; ?>" class="text-slate-700">Update Status</label>
+                    <select name="status" id="status_<?php echo $request['id']; ?>" class="border-solid border-slate-20 border-2 rounded">
+                      <option value="requested" <?php echo $request['status'] === 'requested' ? 'selected' : ''; ?>>Requested</option>
+                      <option value="approved" <?php echo $request['status'] === 'approved' ? 'selected' : ''; ?>>Approved</option>
+                      <option value="denied" <?php echo $request['status'] === 'denied' ? 'selected' : ''; ?>>Denied</option>
+                    </select>
+                  </div>
+                  <div class="save-button-container">
+                    <input type="submit" class="cursor-pointer p-2 rounded text-white font-bold bg-green-600" value="Save">
+                  </div>
+                </form>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+        </div>
+        <!-- EINDE TIME OFF REQUESTS -->
     </div>
   </div>
 
@@ -331,47 +372,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['action']) && $_POST['a
     </script>
   </script>
 
-<!-- TIME OFF REQUESTS -->
-<div class="body add-hub-managers" id="time-off-requests">
-        <div class="index_title">
-          <h2>Time Off Requests</h2>
-        </div>
 
-        <?php if (!empty($popupMessage)) : ?>
-          <div class="popup-message"><?php echo $popupMessage; ?></div>
-        <?php endif; ?>
-
-        <ul id="task-details time-off-details">
-          <?php foreach ($timeOffRequests as $request) : ?>
-            <li class="task-item add-hub-managers">
-              <div id="task-details time-off-details">
-                <div><strong>Employee:</strong> <?php //echo $request['firstname'] . ' ' . $request['lastname'] . ' (' . $request['email'] . ')'; ?></div>
-                <div><strong>Start Date:</strong> <?php echo $request['start_date']; ?></div>
-                <div><strong>End Date:</strong> <?php echo $request['end_date']; ?></div>
-                <div><strong>Reason:</strong> <?php echo $request['reason']; ?></div>
-                <div><strong>Comments:</strong> <?php echo $request['comments']; ?></div>
-                <div><strong>Status:</strong> <?php echo $request['status']; ?></div>
-              </div>
-              <form action="" method="post">
-                <input type="hidden" name="request_id" value="<?php echo $request['id']; ?>">
-                <input type="hidden" name="action" value="updateStatus">
-                <div class="field-container" id="extra">
-                  <label for="status_<?php echo $request['id']; ?>" class="text-slate-700">Update Status</label>
-                  <select name="status" id="status_<?php echo $request['id']; ?>" class="border-solid border-slate-20 border-2 rounded">
-                    <option value="requested" <?php echo $request['status'] === 'requested' ? 'selected' : ''; ?>>Requested</option>
-                    <option value="approved" <?php echo $request['status'] === 'approved' ? 'selected' : ''; ?>>Approved</option>
-                    <option value="denied" <?php echo $request['status'] === 'denied' ? 'selected' : ''; ?>>Denied</option>
-                  </select>
-                </div>
-                <div class="save-button-container">
-                  <input type="submit" class="cursor-pointer p-2 rounded text-white font-bold bg-green-600" value="Save">
-                </div>
-              </form>
-            </li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
-      <!-- EINDE TIME OFF REQUESTS -->
 
 </body>
 

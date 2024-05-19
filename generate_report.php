@@ -6,12 +6,7 @@ if (isset($_GET['type'])) {
     $reportType = $_GET['type'];
     switch ($reportType) {
         // case 'hours_per_person':
-        //     $stmt = $pdo->query("SELECT hub_users.id AS user_id, CONCAT(employees.firstname, ' ', employees.lastname) AS user_name, SUM(TIMESTAMPDIFF(HOUR, work_times.clock_in, work_times.clock_out)) as total_hours 
-        //                          FROM work_times 
-        //                          INNER JOIN task_assignments ON task_assignments.id = work_times.id 
-        //                          INNER JOIN employees ON employees.id = task_assignments.user_id 
-        //                          INNER JOIN hub_users ON hub_users.id = employees.id 
-        //                          GROUP BY hub_users.id");
+        //     $stmt = $pdo->query("SELECT employees.firstname, employees.lastname, SUM(TIMESTAMPDIFF(HOUR, total_hours)) as total_hours");
         //     $reportData = $stmt->fetchAll(PDO::FETCH_ASSOC);
         //     echo "<h2>Aantal gewerkte uren per persoon</h2>";
         //     echo "<table>";
@@ -37,7 +32,7 @@ if (isset($_GET['type'])) {
         case 'leave':
             $stmt = $pdo->query("SELECT employees.firstname, employees.lastname, COUNT(*) as leave_days FROM time_off INNER JOIN employees ON employees.id = time_off.employee_id WHERE time_off.is_sick = 0 GROUP BY employees.id");
             $reportData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo "<h2>Vakantieverlof</h2>";
+            echo "<h2>Time Off</h2>";
             echo "<table>";
             echo "<tr><th>First Name</th><th>Last Name</th><th>Leave Days</th></tr>";
             foreach ($reportData as $row) {
@@ -49,7 +44,7 @@ if (isset($_GET['type'])) {
         case 'sick_leave':
             $stmt = $pdo->query("SELECT employees.firstname, employees.lastname, COUNT(*) as sick_days FROM time_off INNER JOIN employees ON employees.id = time_off.employee_id WHERE time_off.is_sick = 1 GROUP BY employees.id");
             $reportData = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            echo "<h2>Ziekteverlof</h2>";
+            echo "<h2>Sick leave</h2>";
             echo "<table>";
             echo "<tr><th>First Name</th><th>Last Name</th><th>Sick Days</th></tr>";
             foreach ($reportData as $row) {
