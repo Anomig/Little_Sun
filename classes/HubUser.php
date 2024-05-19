@@ -50,9 +50,23 @@
     // Voeg deze methode toe om alle taken op te halen
     public function getTasks()
     {
-        $sql = "SELECT * FROM hub_tasks";
-        $stmt = $this->pdo->query($sql);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        try {
+            // Bereid de SQL-query voor
+            $stmt = $this->pdo->prepare("SELECT * FROM hub_tasks");
+            
+            // Voer de query uit
+            $stmt->execute();
+
+            // Haal alle rijen op als een associatieve array
+            $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Retourneer de taken
+            return $tasks;
+        } catch (PDOException $e) {
+            // Vang eventuele databasefouten op en geef ze weer
+            echo "Fout bij het ophalen van taken: " . $e->getMessage();
+            return []; // Retourneer een lege array als er een fout optreedt
+        }
     }
 
     public function getUsers()

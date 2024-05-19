@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 18, 2024 at 04:30 PM
+-- Generation Time: May 19, 2024 at 09:13 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.0.1
 
@@ -98,8 +98,30 @@ CREATE TABLE `hub_tasks` (
 --
 
 INSERT INTO `hub_tasks` (`id`, `task_name`, `task_description`, `task_type`, `task_status`, `task_start_date`, `task_end_date`, `assigned_to`, `hub_location_id`, `assigned_manager_id`) VALUES
-(1, 'Office Duty', 'Be in the office', NULL, 'Open', NULL, NULL, NULL, NULL, NULL),
-(2, 'cleaning', 'sweep, sweep, sweep', NULL, 'Open', NULL, NULL, NULL, NULL, NULL);
+(1, 'Office Duty', 'Be in the office', NULL, 'Open', NULL, NULL, 10, NULL, NULL),
+(2, 'cleaning', 'sweep, sweep, sweep', NULL, 'Open', NULL, NULL, NULL, NULL, NULL),
+(3, 'work', 'working', NULL, 'Open', NULL, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `task_assignments`
+--
+
+CREATE TABLE `task_assignments` (
+  `id` int(11) NOT NULL,
+  `task_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `task_assignments`
+--
+
+INSERT INTO `task_assignments` (`id`, `task_id`, `user_id`) VALUES
+(175, 1, 5),
+(176, 3, 10),
+(177, 2, 11);
 
 -- --------------------------------------------------------
 
@@ -113,8 +135,22 @@ CREATE TABLE `time_off` (
   `end_date` varchar(300) NOT NULL,
   `reason` varchar(300) NOT NULL,
   `comments` varchar(300) NOT NULL,
-  `status` varchar(300) NOT NULL
+  `status` varchar(300) NOT NULL,
+  `is_sick` tinyint(1) NOT NULL DEFAULT '0',
+  `employee_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `time_off`
+--
+
+INSERT INTO `time_off` (`id`, `start_date`, `end_date`, `reason`, `comments`, `status`, `is_sick`, `employee_id`) VALUES
+(1, '2024-05-18', '2024-05-25', 'vacation', 'holiday', 'requested', 0, 5),
+(2, '2024-05-19', '2024-05-25', 'birthday', 'happy me', 'requested', 0, 5),
+(5, '2024-05-19', '2024-05-21', 'sickness', '', 'requested', 1, 5),
+(6, '2024-05-19', '2024-05-21', 'sickness', 'me sick', 'requested', 1, 5),
+(7, '2024-05-26', '2024-05-27', 'sickness', '', 'requested', 1, 5),
+(8, '2024-05-26', '2024-05-29', 'sickness', '', 'requested', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -136,7 +172,10 @@ CREATE TABLE `work_times` (
 
 INSERT INTO `work_times` (`id`, `clock_in`, `clock_out`, `overtime`, `total_hours`) VALUES
 (30, '2024-05-18 15:49:13', '2024-05-18 15:49:18', '0.00', '00:00:05'),
-(31, '2024-05-18 15:52:29', '2024-05-18 15:52:31', '0.00', '00:00:02');
+(31, '2024-05-18 15:52:29', '2024-05-18 15:52:31', '0.00', '00:00:02'),
+(32, '2024-05-18 18:53:00', '2024-05-18 18:53:08', '0.00', '00:00:08'),
+(33, '2024-05-18 19:39:02', '2024-05-18 19:39:04', '0.00', '00:00:02'),
+(34, '2024-05-19 08:47:11', '2024-05-19 08:47:14', '0.00', '00:00:03');
 
 --
 -- Indexes for dumped tables
@@ -162,10 +201,19 @@ ALTER TABLE `hub_tasks`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `task_assignments`
+--
+ALTER TABLE `task_assignments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `task_id` (`task_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `time_off`
 --
 ALTER TABLE `time_off`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_employee_id` (`employee_id`);
 
 --
 -- Indexes for table `work_times`
@@ -193,19 +241,25 @@ ALTER TABLE `hub_location`
 -- AUTO_INCREMENT for table `hub_tasks`
 --
 ALTER TABLE `hub_tasks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `task_assignments`
+--
+ALTER TABLE `task_assignments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=178;
 
 --
 -- AUTO_INCREMENT for table `time_off`
 --
 ALTER TABLE `time_off`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `work_times`
 --
 ALTER TABLE `work_times`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Constraints for dumped tables
@@ -216,6 +270,19 @@ ALTER TABLE `work_times`
 --
 ALTER TABLE `employees`
   ADD CONSTRAINT `fk_location_id` FOREIGN KEY (`location_id`) REFERENCES `hub_location` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `task_assignments`
+--
+ALTER TABLE `task_assignments`
+  ADD CONSTRAINT `fk_task_id` FOREIGN KEY (`task_id`) REFERENCES `hub_tasks` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `time_off`
+--
+ALTER TABLE `time_off`
+  ADD CONSTRAINT `fk_employee_id` FOREIGN KEY (`employee_id`) REFERENCES `employees` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
