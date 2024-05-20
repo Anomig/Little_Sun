@@ -28,15 +28,38 @@ function editLocation($id, $name, $country)
 function deleteLocation($location_id)
 {
     $conn = Data::getConnection(); // Databaseverbinding ophalen van de Db klasse
-    $sql = "DELETE FROM hub_location WHERE id = :id";
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':id', $location_id);
-    return $stmt->execute();
+
+    try {
+        // Begin transaction
+        $conn->beginTransaction();
+
+        // Set location_id to NULL in employees table
+        $sql = "UPDATE employees SET location_id = NULL WHERE location_id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id', $location_id);
+        $stmt->execute();
+
+        // Proceed with deletion
+        $sql = "DELETE FROM hub_location WHERE id = :id";
+        $stmt = $conn->prepare($sql);
+        $stmt->bindParam(':id', $location_id);
+        $stmt->execute();
+
+        // Commit transaction
+        $conn->commit();
+        return true;
+    } catch (PDOException $e) {
+        // Rollback transaction if something failed
+        $conn->rollBack();
+        throw $e;
+    }
 }
 
 try {
     // Maak verbinding met de database
     $conn = Data::getConnection(); // Databaseverbinding ophalen van de Db klasse
+
+    $errorMessage = "";
 
     // Als er een actie is om een locatie toe te voegen
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['action']) && $_POST['action'] === 'add_location') {
@@ -49,7 +72,7 @@ try {
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } else {
-            echo "Er is een fout opgetreden bij het toevoegen van de locatie.<br>";
+            $errorMessage = "Er is een fout opgetreden bij het toevoegen van de locatie.";
         }
     }
 
@@ -65,7 +88,7 @@ try {
             header("Location: " . $_SERVER['PHP_SELF']);
             exit();
         } else {
-            echo "Er is een fout opgetreden bij het bewerken van de locatie.<br>";
+            $errorMessage = "Er is een fout opgetreden bij het bewerken van de locatie.";
         }
     }
 
@@ -75,11 +98,15 @@ try {
         $location_id = $_POST['location_id'];
 
         // Locatie verwijderen uit de database
-        if (deleteLocation($location_id)) {
-            header("Location: " . $_SERVER['PHP_SELF']);
-            exit();
-        } else {
-            echo "Er is een fout opgetreden bij het verwijderen van de locatie.<br>";
+        try {
+            if (!deleteLocation($location_id)) {
+                $errorMessage = "Er is een fout opgetreden bij het verwijderen van de locatie.";
+            } else {
+                header("Location: " . $_SERVER['PHP_SELF']);
+                exit();
+            }
+        } catch (PDOException $e) {
+            $errorMessage = "Er is een fout opgetreden bij het verwijderen van de locatie: " . $e->getMessage();
         }
     }
 
@@ -88,8 +115,12 @@ try {
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $locations = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    if (!$locations) {
+        $locations = [];
+    }
 } catch (PDOException $e) {
-    echo "Fout: " . $e->getMessage();
+    $errorMessage = "Fout: " . $e->getMessage();
 }
 
 // Verbinding sluiten
@@ -111,11 +142,11 @@ $conn = null;
 <?php include_once("admin.nav.inc.php"); ?>
 <div class="content">
     <div class="location">
-        <h3>Nieuwe locatie toevoegen</h3>
+        <h3>Add new location</h3>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-            <label for="name">Naam:</label>
+            <label for="name">Name:</label>
             <input type="text" id="name" name="name" required><br>
-            <label for="country">Land:</label>
+            <label for="country">Country:</label>
             <select name="country" id="country" required>
                 <option value="">Select a country</option>
                 <?php
@@ -131,40 +162,47 @@ $conn = null;
                 ?>
             </select><br>
             <input type="hidden" name="action" value="add_location">
-            <button type="submit">Toevoegen</button>
+            <button type="submit">Add location</button>
         </form>
     </div>
 
+    <?php if (!empty($errorMessage)): ?>
+        <p style="color: red;"><?php echo $errorMessage; ?></p>
+    <?php endif; ?>
+
     <!-- Divs voor het weergeven van bestaande locaties -->
-    <h3>Bestaande locaties</h3>
-    <?php foreach ($locations as $location) : ?>
-        <div class="location">
-            <p><strong>Naam:</strong> <?php echo $location['name']; ?></p>
-            <p><strong>Land:</strong> <?php echo $location['country']; ?></p>
-            <!-- Formulier voor het bewerken van een locatie -->
-            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
-                <input type="hidden" name="action" value="edit_location">
-                <label for="edit_name_<?php echo $location['id']; ?>">Naam:</label>
-                <input type="text" id="edit_name_<?php echo $location['id']; ?>" name="edit_name" value="<?php echo $location['name']; ?>">
-                <label for="edit_country_<?php echo $location['id']; ?>">Land:</label>
-                <select name="edit_country" id="edit_country_<?php echo $location['id']; ?>">
-                    <?php foreach ($countries as $country) : ?>
-                        <option value="<?php echo $country; ?>" <?php if ($location['country'] === $country) echo 'selected'; ?>><?php echo $country; ?></option>
-                    <?php endforeach; ?>
-                </select>
-                <button type="submit">Opslaan</button>
-            </form>
+    <h3>Existing locations</h3>
+    <?php if (!empty($locations)) : ?>
+        <?php foreach ($locations as $location) : ?>
+            <div class="location">
+                <p><strong>Name:</strong> <?php echo $location['name']; ?></p>
+                <p><strong>Country:</strong> <?php echo $location['country']; ?></p>
+                <!-- Formulier voor het bewerken van een locatie -->
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
+                    <input type="hidden" name="action" value="edit_location">
+                    <label for="edit_name_<?php echo $location['id']; ?>">Name:</label>
+                    <input type="text" id="edit_name_<?php echo $location['id']; ?>" name="edit_name" value="<?php echo $location['name']; ?>">
+                    <label for="edit_country_<?php echo $location['id']; ?>">Country:</label>
+                    <select name="edit_country" id="edit_country_<?php echo $location['id']; ?>">
+                        <?php foreach ($countries as $country) : ?>
+                            <option value="<?php echo $country; ?>" <?php if ($location['country'] === $country) echo 'selected'; ?>><?php echo $country; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
 
-            <!-- Formulier voor het verwijderen van een locatie -->
-            <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
-                <input type="hidden" name="action" value="delete_location">
-                <button type="submit">Verwijderen</button>
-            </form>
-        </div>
-    <?php endforeach; ?>
-
+                <!-- Formulier voor het verwijderen van een locatie -->
+                <form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                    <input type="hidden" name="location_id" value="<?php echo $location['id']; ?>">
+                    <input type="hidden" name="action" value="delete_location">
+                    <button type="submit">Delete</button>
+                </form>
+            </div>
+        <?php endforeach; ?>
+    <?php else : ?>
+        <p>No locations found.</p>
+    <?php endif; ?>
 </div>
 
 <!-- JavaScript voor interactie -->

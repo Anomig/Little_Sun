@@ -108,7 +108,7 @@ $assignedTasks = getAssignedTasks($pdo);
         <?php endforeach; ?>
       </div>
     </div>
-    <button type="submit" name="assign_tasks">Taken toewijzen</button>
+    <button type="submit" name="assign_tasks">Assign task</button>
   </form>
 </div>
 </body>
