@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
   exit;
 }
 
-include_once(__DIR__ . "/classes/data.php");
+include_once(__DIR__ . "/classes/Data.php");
 include_once(__DIR__ . "/classes/HubUser.php");
 
 $pdo = Data::getConnection();

@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/classes/data.php");
+require_once(__DIR__ . "/classes/Data.php");
 
 // Functie om een locatie toe te voegen
 function addLocation($name, $country)

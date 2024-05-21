@@ -2,7 +2,7 @@
 
 //NIET NODIG
 
-require_once(__DIR__ . "/classes/data.php");
+require_once(__DIR__ . "/classes/Data.php");
 require_once(__DIR__ . "/classes/HubManager.php");
 
 $pdo = Data::getConnection();

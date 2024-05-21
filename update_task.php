@@ -1,7 +1,7 @@
 <?php
 // Verbinding maken met de database
 var_dump($_POST);
-include_once(__DIR__ . "/classes/data.php");
+include_once(__DIR__ . "/classes/Data.php");
 $pdo = Data::getConnection();
 
 // Controleren of het verzoek POST is

@@ -2,11 +2,11 @@
 // managers.php
 
 // Inclusie van de databaseklasse en de klasse voor Hub Manager
-include_once(__DIR__ . "/classes/db.php");
+include_once(__DIR__ . "/classes/Data.php");
 include_once(__DIR__ . "/classes/HubManager.php");
 
 // Verbinding maken met de database
-$pdo = Db::getConnection();
+$pdo = Data::getConnection();
 $hubManager = new HubManager($pdo);
 
 // Alle managers ophalen

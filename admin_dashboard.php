@@ -6,7 +6,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
 }
 
 // Include necessary classes
-include_once(__DIR__ . "/classes/data.php");
+include_once(__DIR__ . "/classes/Data.php");
 include_once(__DIR__ . "/classes/HubManager.php");
 
 $pdo = Data::getConnection();

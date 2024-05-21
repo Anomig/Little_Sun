@@ -2,7 +2,7 @@
 
 //NIET MEER NODIG
 
-require_once(__DIR__ . "/classes/data.php");
+require_once(__DIR__ . "/classes/Data.php");
 
 // Functie om een taak toe te voegen
 function addTask($name, $description)

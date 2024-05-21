@@ -1,5 +1,5 @@
 <?php
-require 'data.php'; // Zorg ervoor dat db.php in dezelfde directory staat
+require 'Data.php'; // Zorg ervoor dat db.php in dezelfde directory staat
 
 try {
     // Query om taken op te halen

@@ -6,7 +6,7 @@
 
 //include_once(__DIR__ . "/classes/db.php"); oude databank
 //nieuwe databank
-include_once(__DIR__ . "/classes/data.php");
+include_once(__DIR__ . "/classes/Data.php");
 include_once(__DIR__ . "/classes/HubManager.php");
 
 $pdo = Data::getConnection();

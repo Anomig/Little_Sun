@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__ . "/data.php");
+include_once(__DIR__ . "/Data.php");
 include_once(__DIR__ . "/../classes/Calendar.php");
 $pdo = Data::getConnection();
 $calendar = new Calendar($pdo);
