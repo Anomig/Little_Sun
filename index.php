@@ -29,12 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['loggedin'] = true;
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['email'] = $user['email'];
-                $_SESSION['role'] = $user['function'];
+                $_SESSION['role'] = $user['typeOfUser'];
 
                 // Stuur de gebruiker naar de juiste indexpagina
-                if ($user['function'] == 'admin') {
+                if ($user['typeOfUser'] == 'admin') {
                     header("Location: admin_dashboard.php");
-                } elseif ($user['function'] == 'manager') {
+                } elseif ($user['typeOfUser'] == 'manager') {
                     header("Location: manager_index.php");
                 } else {
                     header("Location: user_index.php");

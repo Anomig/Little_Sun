@@ -71,16 +71,16 @@
 
     public function getUsers()
     {
-        $stmt = $this->pdo->query("SELECT * FROM employees WHERE function = 'user'");
+        $stmt = $this->pdo->query("SELECT * FROM employees WHERE typeOfUser = 'user'");
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function addUser($firstname, $lastname, $email, $password, $function, $hub_task)
+    public function addUser($firstname, $lastname, $email, $password, $typeOfUser, $hub_task)
     {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = "INSERT INTO employees (firstname, lastname, email, password, function, task_id) VALUES (?,?,?,?,?,?)";
+        $sql = "INSERT INTO employees (firstname, lastname, email, password, typeOfUser, task_id) VALUES (?,?,?,?,?,?)";
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$firstname, $lastname, $email, $hashed_password, $function, $hub_task]);
+        $stmt->execute([$firstname, $lastname, $email, $hashed_password, $typeOfUser, $hub_task]);
     }
 }

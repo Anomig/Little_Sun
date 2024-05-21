@@ -1,0 +1,6 @@
+[21-May-2024 10:25:38 Europe/Brussels] PHP Fatal error:  Uncaught PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'typeOfUser' in 'where clause' in /data/sites/web/littlesun5com/www/littlesun/classes/HubManager.php:14
+Stack trace:
+#0 /data/sites/web/littlesun5com/www/littlesun/classes/HubManager.php(14): PDO->query('...')
+#1 /data/sites/web/littlesun5com/www/littlesun/manager_index.php(22): HubManager->getManagers()
+#2 {main}
+  thrown in /data/sites/web/littlesun5com/www/littlesun/classes/HubManager.php on line 14
