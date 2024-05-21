@@ -15,7 +15,7 @@
 <body>
     <nav>
         <ul>
-            <li><a href="index.php">
+            <li><a href="../index.php">
                     <img id="logo" src="../images/little_sun_logo.png" alt="Logo">
                 </a>
             </li>
