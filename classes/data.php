@@ -18,26 +18,38 @@
 //     }
 // }
 
-abstract class Db
+
+class Data
 {
-    private static $db;
+    private static $conn;
 
     public static function getConnection()
     {
-        if (!self::$db) {
-            // PROD (Render) leest uit ENV, lokaal valt hij terug op je MAMP waarden
-            $host = getenv('DB_HOST') ?: 'localhost';
-            $port = getenv('DB_PORT') ?: '3306';
-            $name = getenv('DB_NAME') ?: 'lab2';
-            $user = getenv('DB_USER') ?: 'root';
-            $pass = getenv('DB_PASS') ?: 'root';
+        if (self::$conn === null) {
+            // 1) Render macro: DB_URL = mysql://user:pass@host:3306/dbname
+            $url = getenv('DB_URL');
+            if ($url) {
+                $p = parse_url($url);
+                $host = $p['host'] ?? 'localhost';
+                $port = $p['port'] ?? '3306';
+                $user = $p['user'] ?? '';
+                $pass = $p['pass'] ?? '';
+                $name = ltrim($p['path'] ?? '', '/');
+            } else {
+                // 2) Lokaal fallback (MAMP)
+                $host = getenv('DB_HOST') ?: 'localhost';
+                $port = getenv('DB_PORT') ?: '3306';
+                $name = getenv('DB_NAME') ?: 'little_sun';
+                $user = getenv('DB_USER') ?: 'root';
+                $pass = getenv('DB_PASS') ?: 'root';
+            }
 
             $dsn = "mysql:host=$host;port=$port;dbname=$name;charset=utf8mb4";
-            self::$db = new PDO($dsn, $user, $pass, [
+            self::$conn = new PDO($dsn, $user, $pass, [
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             ]);
         }
-        return self::$db;
+        return self::$conn;
     }
 }
