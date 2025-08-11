@@ -1,10 +1,7 @@
 <?php
 
-//NIET MEER NODIG
-
 require_once(__DIR__ . "/classes/Data.php");
 
-// Functie om een taak toe te voegen
 function addTask($name, $description)
 {
     $conn = Data::getConnection();
@@ -15,7 +12,7 @@ function addTask($name, $description)
     return $stmt->execute();
 }
 
-// Functie om een taak te bewerken
+
 function editTask($id, $name, $description)
 {
     $conn = Data::getConnection();
@@ -27,7 +24,7 @@ function editTask($id, $name, $description)
     return $stmt->execute();
 }
 
-// Functie om een taak te verwijderen
+
 function deleteTask($task_id)
 {
     $conn = Data::getConnection();
@@ -86,9 +83,8 @@ try {
 }
 
 $conn = null;
-?>
 
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">

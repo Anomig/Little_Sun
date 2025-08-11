@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: little-sun
+    runtime: docker
+    branch: main
+    rootDir: .
+    dockerfilePath: Dockerfile
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: "10000"
